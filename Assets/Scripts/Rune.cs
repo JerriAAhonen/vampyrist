@@ -13,7 +13,6 @@ public class Rune : MonoBehaviour
 	private bool inCarry;
 	private float checkRadius = 0.4f;
 
-	private bool inSlot;
 	private RuneSlot slot;
 
 	public RuneData Data => data;
@@ -45,10 +44,10 @@ public class Rune : MonoBehaviour
 		rb.velocity = Vector3.zero;
 		rb.isKinematic = true;
 
-		if (inSlot)
+		if (slot)
 		{
-			inSlot = false;
 			slot.RemoveRune();
+			slot = null;
 		}
 	}
 
@@ -74,6 +73,15 @@ public class Rune : MonoBehaviour
 		}
 	}
 
+	public void InsertIntoSlot(RuneSlot slot)
+	{
+		this.slot = slot;
+
+		slot.InsertRune(this);
+		rb.velocity = Vector2.zero;
+		rb.isKinematic = true;
+	}
+
 	private void CheckForSlot()
 	{
 		var cols = Physics2D.CircleCastAll(transform.position, checkRadius, Vector2.zero);
@@ -82,9 +90,7 @@ public class Rune : MonoBehaviour
 			var slot = col.collider.gameObject.GetComponent<RuneSlot>();
 			if (slot)
 			{
-				slot.InsertRune(this);
-				rb.velocity = Vector2.zero;
-				rb.isKinematic = true;
+				InsertIntoSlot(slot);
 				return;
 			}
 		}

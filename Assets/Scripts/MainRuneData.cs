@@ -10,5 +10,5 @@ public class MainRuneData : ScriptableObject
 	public Sprite Icon => icon;
 	public int ShardAmount => shards.Count;
 
-	public bool IsOwnShard(RuneData data) => shards.Contains(data);
+	public bool IsValidShard(RuneData data) => shards.Contains(data);
 }

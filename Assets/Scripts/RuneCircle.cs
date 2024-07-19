@@ -8,11 +8,22 @@ public class RuneCircle : MonoBehaviour
 
 	private readonly List<RuneData> runes = new();
 
-	public void SetRune(RuneData rune)
+	private MainRuneData mainRune;
+
+	public void SetMainRune(MainRuneData main)
+	{
+		mainRune = main;
+	}
+
+	public bool SetRune(RuneData rune)
 	{
 		runes.Add(rune);
 
 		// TODO Check for completion
+		var isValid = mainRune.IsValidShard(rune);
+		Debug.Log($"isValid: {isValid}");
+
+		return isValid;
 	}
 
 	public void RemoveRune(RuneData rune)

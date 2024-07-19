@@ -81,7 +81,7 @@ public class PlayerInteraction : MonoBehaviour
 				var groundedRuneLayer = Mathf.RoundToInt(Mathf.Log(groundedRuneMask.value, 2));
 				carryingRune.gameObject.layer = groundedRuneLayer;
 
-				slot.InsertRune(carryingRune);
+				carryingRune.InsertIntoSlot(slot);
 				carryingRune = null;
 				return;
 			}
