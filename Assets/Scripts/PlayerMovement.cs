@@ -42,9 +42,8 @@ public class PlayerMovement : MonoBehaviour
 
 	private void OnDestroy()
 	{
-		if (!Application.isPlaying) return;
-
-		InputController.Instance.Jump -= OnJump;
+		if (InputController.Instance)
+			InputController.Instance.Jump -= OnJump;
 	}
 
 	private void OnJump()

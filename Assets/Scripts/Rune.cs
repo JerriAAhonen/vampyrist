@@ -16,6 +16,7 @@ public class Rune : MonoBehaviour
 	private RuneSlot slot;
 
 	public RuneData Data => data;
+	public bool CanPickup => slot == null || !slot.Locked;
 
 	private void Awake()
 	{
@@ -41,6 +42,9 @@ public class Rune : MonoBehaviour
 
 	public void Pickup()
 	{
+		if (slot && slot.Locked)
+			return;
+
 		rb.velocity = Vector3.zero;
 		rb.isKinematic = true;
 
@@ -75,6 +79,9 @@ public class Rune : MonoBehaviour
 
 	public void InsertIntoSlot(RuneSlot slot)
 	{
+		if (slot.HasRune)
+			return;
+
 		this.slot = slot;
 
 		slot.InsertRune(this);

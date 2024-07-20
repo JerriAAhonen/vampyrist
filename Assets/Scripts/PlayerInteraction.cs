@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
-using UnityEngine.Pool;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -37,9 +35,8 @@ public class PlayerInteraction : MonoBehaviour
 
 	private void OnDestroy()
 	{
-		if (!Application.isPlaying) return;
-
-		InputController.Instance.Interact -= OnInteract;
+		if (InputController.Instance)
+			InputController.Instance.Interact -= OnInteract;
 	}
 
 	private void OnDrawGizmos()
@@ -53,18 +50,17 @@ public class PlayerInteraction : MonoBehaviour
 
 	private void OnInteract()
 	{
-		Debug.Log("OnInteract");
-
 		var hits = Physics2D.CircleCastAll(transform.position, interactionRadius, transform.forward).ToList();
 
 		foreach (var hit in hits)
 		{
-			if (!hit.transform) continue;
-
 			// Pickup rune
 			var rune = hit.transform.GetComponent<Rune>();
             if (rune && !carryingRune)
             {
+				if (!rune.CanPickup)
+					continue;
+
 				Debug.Log("Pickup");
 
 				carryingRune = rune;
@@ -82,6 +78,11 @@ public class PlayerInteraction : MonoBehaviour
 			var slot = hit.transform.GetComponent<RuneSlot>();
 			if (slot && carryingRune)
 			{
+				if (slot.Locked)
+					continue;
+
+				var runeInSlot = slot.InsertedRune; ;
+
 				Debug.Log("Set into slot");
 
 				carryingRune.transform.SetParent(null);

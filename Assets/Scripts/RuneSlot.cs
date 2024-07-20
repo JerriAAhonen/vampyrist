@@ -6,6 +6,10 @@ public class RuneSlot : MonoBehaviour
 	private Rune insertedRune;
 	private SpriteRenderer spriteRenderer;
 
+	public bool Locked => circle.Complete;
+	public bool HasRune => insertedRune != null;
+	public Rune InsertedRune => insertedRune;
+
 	private void Awake()
 	{
 		circle = GetComponentInParent<RuneCircle>();
@@ -14,7 +18,7 @@ public class RuneSlot : MonoBehaviour
 
 	public void InsertRune(Rune rune)
 	{
-		if (insertedRune)
+		if (Locked)
 			return;
 
         insertedRune = rune;
@@ -30,8 +34,8 @@ public class RuneSlot : MonoBehaviour
 
 	public void RemoveRune()
 	{
-		if (!insertedRune)
-			return;
+		if (!insertedRune) return;
+		if (Locked) return;
 
 		circle.RemoveRune(insertedRune.Data);
 		insertedRune = null;
