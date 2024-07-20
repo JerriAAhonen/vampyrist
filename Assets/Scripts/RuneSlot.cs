@@ -4,10 +4,12 @@ public class RuneSlot : MonoBehaviour
 {
 	private RuneCircle circle;
 	private Rune insertedRune;
+	private SpriteRenderer spriteRenderer;
 
 	private void Awake()
 	{
 		circle = GetComponentInParent<RuneCircle>();
+		spriteRenderer = GetComponent<SpriteRenderer>();
 	}
 
 	public void InsertRune(Rune rune)
@@ -21,7 +23,9 @@ public class RuneSlot : MonoBehaviour
 
 		// TODO anims
 
-		circle.SetRune(rune.Data);
+		var valid = circle.SetRune(rune.Data);
+
+		spriteRenderer.color = valid ? Color.green : Color.red;
 	}
 
 	public void RemoveRune()
@@ -31,5 +35,7 @@ public class RuneSlot : MonoBehaviour
 
 		circle.RemoveRune(insertedRune.Data);
 		insertedRune = null;
+
+		spriteRenderer.color = Color.grey;
 	}
 }

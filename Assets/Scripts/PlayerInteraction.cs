@@ -1,12 +1,13 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.Pool;
 
 public class PlayerInteraction : MonoBehaviour
 {
 	[SerializeField] private Transform carryParent;
 	[SerializeField] private LayerMask groundedRuneMask;
 	[SerializeField] private LayerMask carryingRuneMask;
-
-	private readonly RaycastHit2D[] hits = new RaycastHit2D[20];
 
 	private PlayerMovement movement;
 	private float interactionRadius = 0.5f;
@@ -26,9 +27,9 @@ public class PlayerInteraction : MonoBehaviour
 
 	private void Update()
 	{
-		var hitCount = Physics2D.CircleCastNonAlloc(transform.position, interactionRadius, transform.forward, hits, groundedRuneMask);
+		var hits = Physics2D.CircleCastAll(transform.position, interactionRadius, transform.forward, groundedRuneMask).ToList();
 
-		if (hitCount > 0)
+		if (hits.Count > 0)
 		{
 			// TODO Show tooltip
 		}
@@ -54,13 +55,18 @@ public class PlayerInteraction : MonoBehaviour
 	{
 		Debug.Log("OnInteract");
 
+		var hits = Physics2D.CircleCastAll(transform.position, interactionRadius, transform.forward).ToList();
+
 		foreach (var hit in hits)
 		{
 			if (!hit.transform) continue;
 
+			// Pickup rune
 			var rune = hit.transform.GetComponent<Rune>();
             if (rune && !carryingRune)
             {
+				Debug.Log("Pickup");
+
 				carryingRune = rune;
 				rune.Pickup();
 				rune.transform.SetParent(carryParent);
@@ -72,9 +78,12 @@ public class PlayerInteraction : MonoBehaviour
 				return;
             }
 
+			// Set rune into slot
 			var slot = hit.transform.GetComponent<RuneSlot>();
 			if (slot && carryingRune)
 			{
+				Debug.Log("Set into slot");
+
 				carryingRune.transform.SetParent(null);
 
 				// TODO Move to Rune.cs
@@ -87,6 +96,7 @@ public class PlayerInteraction : MonoBehaviour
 			}
         }
 
+		// Throw rune
 		if (carryingRune)
 		{
 			Debug.Log("Throw");

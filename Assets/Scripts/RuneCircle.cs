@@ -6,9 +6,9 @@ public class RuneCircle : MonoBehaviour
 {
 	// Name : ShadowBinder's Circle
 
-	private readonly List<RuneData> runes = new();
+	[SerializeField] private MainRuneData mainRune;
 
-	private MainRuneData mainRune;
+	private readonly List<RuneData> runes = new();
 
 	public void SetMainRune(MainRuneData main)
 	{
