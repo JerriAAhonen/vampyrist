@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
@@ -6,6 +7,8 @@ using UnityEngine;
 public class RuneCircle : MonoBehaviour
 {
 	// Name : ShadowBinder's Circle
+
+	[SerializeField] private RuneSlot runeSlotPrefab;
 
 	private readonly List<RuneData> runes = new();
 
@@ -23,11 +26,12 @@ public class RuneCircle : MonoBehaviour
 		mainRuneSlot = GetComponentInChildren<MainRuneSlot>();
 	}
 
-	public void Init(Portal portal, MainRuneData mainRune)
+	public IEnumerator Init(Portal portal, MainRuneData mainRune)
 	{
 		this.portal = portal;
 		this.mainRune = mainRune;
 		mainRuneSlot.SetRuneIcon(mainRune.Icon);
+		yield return InitSlots();
 	}
 
 	public bool SetRune(RuneData rune)
@@ -93,28 +97,24 @@ public class RuneCircle : MonoBehaviour
 		portal.OnCircleComplete(this);
 	}
 
-	[Button("Set Slots")]
-	private void SpreadSlotsAlongCircle()
+	private IEnumerator InitSlots()
 	{
-		var childCount = transform.childCount;
-		if (childCount == 0)
-		{
-			Debug.LogWarning("No child objects found to distribute.");
-			return;
-		}
+		var slotCount = mainRune.ShardAmount;
 
-		var angleStep = 360f / childCount;
+		var angleStep = 360f / slotCount;
 		var startingAngle = 90f;
 
-		if (childCount == 2)
+		if (slotCount == 2)
 			startingAngle = 0f;
 
-		for (int i = 0; i < childCount; i++)
+		for (int i = 0; i < slotCount; i++)
 		{
-			var child = transform.GetChild(i);
+			var slot = Instantiate(runeSlotPrefab, transform);
 			var angle = startingAngle - i * angleStep;
 			var position = MathUtil.CalculatePositionOnCircle(angle, slotDistance / transform.localScale.x);
-			child.localPosition = position;
+			
+			slot.transform.localPosition = position;
+			yield return null;
 		}
 	}
 }

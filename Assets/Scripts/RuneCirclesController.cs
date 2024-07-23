@@ -21,7 +21,8 @@ public class RuneCirclesController : MonoBehaviour
 		{
 			var runeCircle = Instantiate(runeCirclePrefab);
 			runeCircle.transform.SetParent(transform);
-			runeCircle.Init(portal, mainRuneDatas[0]);
+
+			yield return runeCircle.Init(portal, mainRuneDatas[0]);
 			Circles.Add(runeCircle);
 			yield break;
 		}
@@ -37,37 +38,10 @@ public class RuneCirclesController : MonoBehaviour
 			
 			runeCircle.transform.SetParent(transform);
 			runeCircle.transform.localPosition = position;
-			runeCircle.Init(portal, mainRuneDatas[i]);
-			Circles.Add(runeCircle);
 
+			yield return runeCircle.Init(portal, mainRuneDatas[i]);
+			Circles.Add(runeCircle);
 			yield return null;
 		}
 	}
 }
-
-/*
-Setup portal:
-- Rand rune count 1-3
-- Rand runes
-- Show runes on portal edge
-
-Setup circle(s)
-- Set main rune
-- Show main run in middle
-- Get shard count, set rune slots
-
-Setup rune shards
-- Get required shards
-- Rand extra shards
-- distribute shards into env
-
-Setup shadow system
-- params
-	- density
-	- movement dir
-	- movement spd
-	- movement spd increase
-	- density decrease spd
-	
-- Rand params 
- */
