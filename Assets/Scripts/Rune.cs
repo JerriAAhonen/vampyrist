@@ -43,6 +43,12 @@ public class Rune : MonoBehaviour
 		Gizmos.DrawWireSphere(transform.position, checkRadius);
 	}
 
+	public void Init(RuneData data)
+	{
+		this.data = data;
+		spriteRenderer.sprite = data.Icon;
+	}
+
 	public void Pickup()
 	{
 		if (slot && slot.Locked)

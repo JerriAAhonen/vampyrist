@@ -9,6 +9,7 @@ public class MainRuneData : ScriptableObject
 
 	public Sprite Icon => icon;
 	public int ShardAmount => shards.Count;
+	public IReadOnlyList<RuneData> Shards => shards;
 
 	public bool IsValidShard(RuneData data) => shards.Contains(data);
 }

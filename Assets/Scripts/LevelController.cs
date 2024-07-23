@@ -9,6 +9,8 @@ public class LevelController : MonoBehaviour
 	[SerializeField] private Portal portal;
 	[Header("Rune Circles")]
 	[SerializeField] private RuneCirclesController runeCirclesController;
+	[Header("Rune Shards")]
+	[SerializeField] private ShardsController shardsController;
 
 	private List<MainRuneData> mainRunes;
 
@@ -54,7 +56,7 @@ public class LevelController : MonoBehaviour
 
 	private IEnumerator SetupRuneShards()
 	{
-		yield return null;
+		yield return shardsController.Init(mainRunes);
 	}
 
 	private IEnumerator SetupShadowSystem()
