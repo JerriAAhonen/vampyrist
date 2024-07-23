@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+	[SerializeField] private ShadowController shadowController;
+
 	private PlayerInteraction interaction;
 	private CharacterController cc;
 	private float movementSpeed = 3f;
@@ -38,6 +40,8 @@ public class PlayerMovement : MonoBehaviour
 		{
 			cc.Move(movementSpeed * Time.deltaTime * movement);
 		}
+
+		
 	}
 
 	private void OnDestroy()
