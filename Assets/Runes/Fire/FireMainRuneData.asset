@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: add117bf1720ed5449662257419fefc8, type: 3}
   m_Name: FireMainRuneData
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 192855324, guid: 306238c41ab2b0341b07dd3e7619d371, type: 3}
   shards:
   - {fileID: 11400000, guid: 825aa60e5c0faa04cb61cf406e0a510f, type: 2}
   - {fileID: 11400000, guid: 19f9c372e8d0ff9499ad0998c4526f46, type: 2}
