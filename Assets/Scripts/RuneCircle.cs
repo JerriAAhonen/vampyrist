@@ -7,11 +7,12 @@ public class RuneCircle : MonoBehaviour
 {
 	// Name : ShadowBinder's Circle
 
-	[SerializeField] private MainRuneData mainRune;
-
 	private readonly List<RuneData> runes = new();
 
 	private SpriteRenderer spriteRenderer;
+	private MainRuneSlot mainRuneSlot;
+	private MainRuneData mainRune;
+	private Portal portal;
 	private float slotDistance = 2f;
 
 	public bool Complete { get; private set; }
@@ -19,11 +20,14 @@ public class RuneCircle : MonoBehaviour
 	private void Awake()
 	{
 		spriteRenderer = GetComponent<SpriteRenderer>();
+		mainRuneSlot = GetComponentInChildren<MainRuneSlot>();
 	}
 
-	public void Init(MainRuneData mainRune)
+	public void Init(Portal portal, MainRuneData mainRune)
 	{
+		this.portal = portal;
 		this.mainRune = mainRune;
+		mainRuneSlot.SetRuneIcon(mainRune.Icon);
 	}
 
 	public bool SetRune(RuneData rune)
@@ -86,6 +90,7 @@ public class RuneCircle : MonoBehaviour
 		Debug.Log("Circle complete!");
 		spriteRenderer.color = Color.green;
 		Complete = true;
+		portal.OnCircleComplete(this);
 	}
 
 	[Button("Set Slots")]
@@ -108,16 +113,8 @@ public class RuneCircle : MonoBehaviour
 		{
 			var child = transform.GetChild(i);
 			var angle = startingAngle - i * angleStep;
-			var position = CalculatePositionOnCircle(angle, slotDistance / transform.localScale.x);
+			var position = MathUtil.CalculatePositionOnCircle(angle, slotDistance / transform.localScale.x);
 			child.localPosition = position;
 		}
-	}
-
-	private Vector3 CalculatePositionOnCircle(float angle, float radius)
-	{
-		var angleRad = angle * Mathf.Deg2Rad;
-		var x = Mathf.Cos(angleRad) * radius;
-		var y = Mathf.Sin(angleRad) * radius;
-		return new Vector3(x, y, 0);
 	}
 }

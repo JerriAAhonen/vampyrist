@@ -61,16 +61,7 @@ public class PlayerInteraction : MonoBehaviour
 				if (!rune.CanPickup)
 					continue;
 
-				Debug.Log("Pickup");
-
-				carryingRune = rune;
-				rune.Pickup();
-				rune.transform.SetParent(carryParent);
-				rune.transform.localPosition = Vector3.zero;
-
-				// TODO Move to Rune.cs
-				var carryingRuneLayer = Mathf.RoundToInt(Mathf.Log(carryingRuneMask.value, 2));
-				rune.gameObject.layer = carryingRuneLayer;
+				Pickup(rune);
 				return;
             }
 
@@ -81,24 +72,51 @@ public class PlayerInteraction : MonoBehaviour
 				if (slot.Locked)
 					continue;
 
-				var runeInSlot = slot.InsertedRune; ;
-
-				Debug.Log("Set into slot");
-
-				carryingRune.transform.SetParent(null);
-
-				// TODO Move to Rune.cs
-				var groundedRuneLayer = Mathf.RoundToInt(Mathf.Log(groundedRuneMask.value, 2));
-				carryingRune.gameObject.layer = groundedRuneLayer;
-
-				carryingRune.InsertIntoSlot(slot);
-				carryingRune = null;
+				InsertInSlot(slot);
 				return;
 			}
         }
 
 		// Throw rune
 		if (carryingRune)
+		{
+			Throw();
+			return;
+		}
+
+		void Pickup(Rune rune)
+		{
+			Debug.Log("Pickup");
+
+			carryingRune = rune;
+			rune.Pickup();
+			rune.transform.SetParent(carryParent);
+			rune.transform.localPosition = Vector3.zero;
+
+			// TODO Move to Rune.cs
+			var carryingRuneLayer = Mathf.RoundToInt(Mathf.Log(carryingRuneMask.value, 2));
+			rune.gameObject.layer = carryingRuneLayer;
+		}
+
+		void InsertInSlot(RuneSlot slot)
+		{
+			Debug.Log("InsertInSlot");
+
+			var runeInSlot = slot.InsertedRune;
+			carryingRune.transform.SetParent(null);
+
+			// TODO Move to Rune.cs
+			var groundedRuneLayer = Mathf.RoundToInt(Mathf.Log(groundedRuneMask.value, 2));
+			carryingRune.gameObject.layer = groundedRuneLayer;
+
+			carryingRune.InsertIntoSlot(slot);
+			carryingRune = null;
+
+			if (runeInSlot)
+				Pickup(runeInSlot);
+		}
+
+		void Throw()
 		{
 			Debug.Log("Throw");
 
@@ -108,7 +126,6 @@ public class PlayerInteraction : MonoBehaviour
 			var groundedRuneLayer = Mathf.RoundToInt(Mathf.Log(groundedRuneMask.value, 2));
 			carryingRune.gameObject.layer = groundedRuneLayer;
 			carryingRune = null;
-			return;
 		}
 	}
 }

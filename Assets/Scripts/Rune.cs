@@ -7,6 +7,7 @@ public class Rune : MonoBehaviour
 	[SerializeField] private RuneData data;
 
 	private Rigidbody2D rb;
+	private SpriteRenderer spriteRenderer;
 	private float throwForce = 20f;
 	private float startingLinearDrag = 0f;
 	private float linearDragIncrease = 0.05f;
@@ -21,6 +22,8 @@ public class Rune : MonoBehaviour
 	private void Awake()
 	{
 		rb = GetComponent<Rigidbody2D>();
+		spriteRenderer = GetComponent<SpriteRenderer>();
+		spriteRenderer.sprite = data.Icon;
 	}
 
 	private void FixedUpdate()
