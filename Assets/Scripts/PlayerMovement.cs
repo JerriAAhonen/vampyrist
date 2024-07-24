@@ -41,7 +41,8 @@ public class PlayerMovement : MonoBehaviour
 			cc.Move(movementSpeed * Time.deltaTime * movement);
 		}
 
-		
+		shadowController.GetIsInSunlight(transform.position);
+		//Debug.Log(inSunlight);
 	}
 
 	private void OnDestroy()

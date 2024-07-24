@@ -1,64 +1,50 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class ShadowController : MonoBehaviour
 {
 	[SerializeField] private float xOffset;
 	[SerializeField] private float yOffset;
 	[SerializeField] private float scale;
-	[SerializeField] private float cutoff;
+	[SerializeField] private float step;
+	[SerializeField] private Material shadowMaterial;
+	[SerializeField] private RenderTexture renderTexture;
+	[SerializeField] private SpriteRenderer spriteRenderer;
+	[SerializeField] private Camera cam;
 
-	private SpriteRenderer spriteRenderer;
-	private Material material;
-	
+	private Texture2D texture;
 
 	private void Awake()
 	{
-		spriteRenderer = GetComponent<SpriteRenderer>();
-		material = spriteRenderer.sharedMaterial;
 	}
 
 	private void Start()
 	{
+
 	}
 
-	private void Update()
+	public bool GetIsInSunlight(Vector2 worldPos)
 	{
-		var pos = transform.position;
-		material.SetVector("_PlayerPos", pos);
-	}
+		RenderTexture.active = renderTexture;
+		cam.targetTexture = renderTexture;
+		cam.enabled = true;
+		cam.Render();
+		cam.enabled = false;
 
-	public Color GetColorAtWorldPosition(Vector2 worldPosition)
-	{
-		// Check if the SpriteRenderer and its sprite are available
-		if (spriteRenderer == null || spriteRenderer.sprite == null)
-		{
-			Debug.LogError("SpriteRenderer or sprite is not assigned.");
-			return Color.clear;
-		}
+		if (texture == null)
+			texture = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGB24, false);
 
-		// Get the sprite and texture
-		Sprite sprite = spriteRenderer.sprite;
-		Texture2D texture = sprite.texture;
+		texture.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
+		texture.Apply();
+		RenderTexture.active = null;
 
-		// Get the sprite's local bounds
-		Rect spriteRect = sprite.rect;
-		Vector2 spriteSize = new Vector2(spriteRect.width, spriteRect.height);
+		var screenPos = cam.WorldToScreenPoint(worldPos);
+		int x = Mathf.RoundToInt(screenPos.x);
+		int y = Mathf.RoundToInt(screenPos.y);
+		var color = texture.GetPixel(x, y);
+		var inSunlight = color == Color.white;
 
-		// Convert world position to local sprite space
-		Vector2 localPosition = spriteRenderer.transform.InverseTransformPoint(worldPosition);
-
-		// Convert local position to UV coordinates
-		Vector2 uv = (localPosition - spriteRect.position) / spriteSize;
-
-		// Clamp UV to ensure it's within the texture bounds
-		uv = new Vector2(Mathf.Clamp01(uv.x), Mathf.Clamp01(uv.y));
-
-		// Calculate pixel coordinates
-		Vector2 pixelCoordinates = new Vector2(uv.x * texture.width, uv.y * texture.height);
-
-		// Get the color from the texture
-		Color color = texture.GetPixel((int)pixelCoordinates.x, (int)pixelCoordinates.y);
-
-		return color;
+		//Debug.Log($"pos: ({x}, {y}), Color: {color}, inSunlight: {inSunlight}");
+		return inSunlight;
 	}
 }
