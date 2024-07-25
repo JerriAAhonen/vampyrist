@@ -62,6 +62,7 @@ public class LevelController : Singleton<LevelController>
 	private IEnumerator SetupShadowSystem()
 	{
 		yield return null;
+		ShadowController.Instance.Init();
 	}
 }
 

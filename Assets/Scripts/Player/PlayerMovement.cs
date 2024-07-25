@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-	[SerializeField] private ShadowController shadowController;
+	[SerializeField] private float movementSpeed = 3f;
+	[SerializeField] private float jumpDuration = 0.2f;
+	[SerializeField] private float jumpSpeed = 8f;
 
 	private PlayerInteraction interaction;
-	private CharacterController cc;
-	private float movementSpeed = 3f;
+	private Rigidbody2D rb;
 	private Vector2 prevMovement;
-	private float jumpDuration = 0.2f;
-	private float jumpSpeed = 8f;
 	private bool jumping;
 
 	public Vector2 MovementDir { get; private set; }
@@ -19,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
 	private void Awake()
 	{
 		interaction = GetComponent<PlayerInteraction>();
-		cc = GetComponent<CharacterController>();
+		rb = GetComponent<Rigidbody2D>();
 	}
 
 	private void Start()
@@ -27,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
 		InputController.Instance.Jump += OnJump;
 	}
 
-	private void Update()
+	private void FixedUpdate()
 	{
 		var movement = InputController.Instance.Movement;
 		if (movement.sqrMagnitude > 0f)
@@ -38,11 +37,8 @@ public class PlayerMovement : MonoBehaviour
 
 		if (!jumping)
 		{
-			cc.Move(movementSpeed * Time.deltaTime * movement);
+			rb.velocity = movementSpeed * Time.deltaTime * movement;
 		}
-
-		shadowController.GetIsInSunlight(transform.position);
-		//Debug.Log(inSunlight);
 	}
 
 	private void OnDestroy()
@@ -65,9 +61,9 @@ public class PlayerMovement : MonoBehaviour
 		while (elapsed < jumpDuration)
 		{
 			elapsed += Time.deltaTime;
-			cc.Move(jumpSpeed * Time.deltaTime * prevMovement);
+			rb.velocity = jumpSpeed * Time.deltaTime * prevMovement;
 
-			yield return null;
+			yield return new WaitForFixedUpdate();
 		}
 
 		jumping = false;

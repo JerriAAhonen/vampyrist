@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 
-public class ShadowController : MonoBehaviour
+public class ShadowController : Singleton<ShadowController>
 {
 	[SerializeField] private float xOffset;
 	[SerializeField] private float yOffset;
@@ -13,38 +14,48 @@ public class ShadowController : MonoBehaviour
 	[SerializeField] private Camera cam;
 
 	private Texture2D texture;
+	private Vector2 playerWorldPos;
 
-	private void Awake()
+	public bool InSunlight { get; private set; }
+
+	public void Init()
 	{
+		StartCoroutine(ReadPixelRoutine());
 	}
 
-	private void Start()
+	public void SetPlayerWorldPos(Vector2 pos) => playerWorldPos = pos;
+
+	private IEnumerator ReadPixelRoutine()
 	{
+		while (true) // TODO
+		{
+			yield return new WaitForEndOfFrame();
 
-	}
+			RenderTexture.active = renderTexture;
+			cam.targetTexture = renderTexture;
+			cam.enabled = true;
+			cam.Render();
+			cam.enabled = false;
 
-	public bool GetIsInSunlight(Vector2 worldPos)
-	{
-		RenderTexture.active = renderTexture;
-		cam.targetTexture = renderTexture;
-		cam.enabled = true;
-		cam.Render();
-		cam.enabled = false;
+			if (texture == null)
+			{
+				texture = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGBA32, false);
+			}
 
-		if (texture == null)
-			texture = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGB24, false);
+			texture.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
+			texture.Apply();
+			RenderTexture.active = null;
 
-		texture.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
-		texture.Apply();
-		RenderTexture.active = null;
+			var screenPos = cam.WorldToScreenPoint(playerWorldPos);
+			int x = Mathf.RoundToInt(screenPos.x);
+			int y = Mathf.RoundToInt(screenPos.y);
+			var color = texture.GetPixel(x, y);
 
-		var screenPos = cam.WorldToScreenPoint(worldPos);
-		int x = Mathf.RoundToInt(screenPos.x);
-		int y = Mathf.RoundToInt(screenPos.y);
-		var color = texture.GetPixel(x, y);
-		var inSunlight = color == Color.white;
+			InSunlight = color.a <= Mathf.Epsilon;
 
-		//Debug.Log($"pos: ({x}, {y}), Color: {color}, inSunlight: {inSunlight}");
-		return inSunlight;
+			/*InSunlight = color == Color.white;
+			Debug.Log($"Color: {color} == {Color.white}: {InSunlight}");*/
+			//Debug.Log(InSunlight);
+		}
 	}
 }
