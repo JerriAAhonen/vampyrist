@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelController : MonoBehaviour
+public class LevelController : Singleton<LevelController>
 {
 	[Header("Portal")]
 	[SerializeField] private List<MainRuneData> mainRuneDatas;
@@ -14,7 +14,7 @@ public class LevelController : MonoBehaviour
 
 	private List<MainRuneData> mainRunes;
 
-	private IEnumerator Start()
+	public IEnumerator Init(int levelIndex)
 	{
 		yield return RandomizeLevel();
 		yield return SetupRuneCircles();
