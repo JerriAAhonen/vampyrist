@@ -39,7 +39,7 @@ public class RuneCircle : MonoBehaviour
 		var isValid = mainRune.IsValidShard(rune);
 		var isDuplicate = HasDuplicates(runes);
 
-		Debug.Log($"isValid: {isValid}, isDuplicate: {isDuplicate}");
+		//Debug.Log($"isValid: {isValid}, isDuplicate: {isDuplicate}");
 
 		if (isValid && !isDuplicate && IsComplete())
 			OnComplete();
@@ -87,7 +87,7 @@ public class RuneCircle : MonoBehaviour
 
 	private void OnComplete()
 	{
-		Debug.Log("Circle complete!");
+		//Debug.Log("Circle complete!");
 		Complete = true;
 		portal.OnCircleComplete(this);
 	}
