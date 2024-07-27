@@ -17,4 +17,4 @@ MonoBehaviour:
   movementSpeedMin: {x: 0.018, y: 0.081}
   movementSpeedMax: {x: 0.02, y: 0.02}
   startingStepRange: {x: 0.38, y: 0.42}
-  stepRangeIncreaseSpeedRange: {x: 0.005, y: 0.015}
+  stepRangeIncreaseSpeedRange: {x: 0.001, y: 0.005}
