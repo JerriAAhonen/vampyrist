@@ -17091,7 +17091,7 @@ GameObject:
   - component: {fileID: 1029979498}
   - component: {fileID: 1029979497}
   - component: {fileID: 1029979496}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17192,7 +17192,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1153395683}
   - component: {fileID: 1153395684}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Vamp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17409,7 +17409,7 @@ GameObject:
   - component: {fileID: 1577065738}
   - component: {fileID: 1577065740}
   - component: {fileID: 1577065739}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17919,7 +17919,7 @@ GameObject:
   - component: {fileID: 1715870578}
   - component: {fileID: 1715870577}
   - component: {fileID: 1715870576}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17992,7 +17992,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1715980919}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CarryParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18210,7 +18210,7 @@ GameObject:
   - component: {fileID: 1866126645}
   - component: {fileID: 1866126647}
   - component: {fileID: 1866126646}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18357,7 +18357,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1868589888}
   - component: {fileID: 1868589889}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -43,7 +43,7 @@ Material:
     - _Step: 0.5
     - _StepMax: 0.39
     - _StepMin: 0.3
-    - _StepSmooth: 0.032
+    - _StepSmooth: 0
     m_Colors:
     - _PlayerPos: {r: 2.781, g: -0.165, b: 0, a: 0}
     - _Speed: {r: 0, g: 0, b: 0, a: 0}
