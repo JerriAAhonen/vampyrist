@@ -12,6 +12,14 @@ public class LoadingCanvas : MonoBehaviour
 
 		isVisible = true;
 		gameObject.SetActive(true);
+
+		if (instant)
+			yield break;
+
+		yield return null;
+		yield return null;
+		yield return null;
+		yield return null;
 	}
 
 	public IEnumerator Hide()
@@ -21,5 +29,10 @@ public class LoadingCanvas : MonoBehaviour
 
 		isVisible = false;
 		gameObject.SetActive(false);
+
+		yield return null;
+		yield return null;
+		yield return null;
+		yield return null;
 	}
 }

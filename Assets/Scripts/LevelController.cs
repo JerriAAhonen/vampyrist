@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,6 +23,8 @@ public class LevelController : Singleton<LevelController>
 	[SerializeField] private GameObject pauseRoot;
 	[SerializeField] private Button pauseContinueButton;
 	[SerializeField] private Button pauseMainMenuButton;
+	[Space]
+	[SerializeField] private TextMeshProUGUI currentLevelText;
 	[Header("Level Settings")]
 	[SerializeField] private List<LevelSettings> levelSettings;
 
@@ -30,6 +33,19 @@ public class LevelController : Singleton<LevelController>
 	private LevelSettings currentSettings;
 
 	public bool GamePaused { get; private set; }
+
+	protected override void Awake()
+	{
+		base.Awake();
+
+		failRoot.SetActive(false);
+		failRestartButton.onClick.AddListener(OnRestart);
+		failMainMenuButton.onClick.AddListener(OnMainMenu);
+
+		pauseRoot.SetActive(false);
+		pauseContinueButton.onClick.AddListener(OnContinue);
+		pauseMainMenuButton.onClick.AddListener(OnMainMenu);
+	}
 
 	private void Update()
 	{
@@ -43,20 +59,13 @@ public class LevelController : Singleton<LevelController>
 	{
 		this.levelIndex = levelIndex;
 		GetLevelSettings();
+		currentLevelText.text = $"Level {levelIndex + 1}";
 
 		yield return RandomizeLevel();
 		yield return SetupRuneCircles();
 		yield return SetupPortal();
 		yield return SetupRuneShards();
 		yield return SetupShadowSystem();
-
-		failRoot.SetActive(false);
-		failRestartButton.onClick.AddListener(OnRestart);
-		failMainMenuButton.onClick.AddListener(OnMainMenu);
-
-		pauseRoot.SetActive(false);
-		pauseContinueButton.onClick.AddListener(OnContinue);
-		pauseMainMenuButton.onClick.AddListener(OnMainMenu);
 
 		InputController.Instance.Pause += OnPause;
 	}
