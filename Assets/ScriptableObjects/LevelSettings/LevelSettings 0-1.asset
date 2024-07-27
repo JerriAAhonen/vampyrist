@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d35db7cf734352f43bbde1889106b7fa, type: 3}
-  m_Name: LevelSettings0-1
+  m_Name: LevelSettings 0-1
   m_EditorClassIdentifier: 
   levelRange: {x: 0, y: 1}
   mainRuneCountRange: {x: 1, y: 1}
   movementSpeedMin: {x: 0.018, y: 0.081}
-  movementSpeedMax: {x: 0.022, y: 0.022}
+  movementSpeedMax: {x: 0.02, y: 0.02}
   startingStepRange: {x: 0.38, y: 0.42}
-  stepRangeIncreaseSpeedRange: {x: 0, y: 0}
+  stepRangeIncreaseSpeedRange: {x: 0.005, y: 0.015}
