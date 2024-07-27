@@ -66,8 +66,6 @@ public class Portal : MonoBehaviour
 
 	private void OnComplete()
 	{
-		// TODO Activate portal
-		spriteRenderer.color = Color.green;
 		isComplete = true;
 
 		LeanTween.value(0f, 1f, 0.5f)

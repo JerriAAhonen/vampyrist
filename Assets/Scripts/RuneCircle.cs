@@ -50,7 +50,6 @@ public class RuneCircle : MonoBehaviour
 	public void RemoveRune(RuneData rune)
 	{
 		runes.Remove(rune);
-		spriteRenderer.color = Color.white;
 	}
 
 	private bool HasDuplicates(List<RuneData> list)
@@ -88,9 +87,7 @@ public class RuneCircle : MonoBehaviour
 
 	private void OnComplete()
 	{
-		// TODO Activate circle and inform portal
 		Debug.Log("Circle complete!");
-		spriteRenderer.color = Color.green;
 		Complete = true;
 		portal.OnCircleComplete(this);
 	}
