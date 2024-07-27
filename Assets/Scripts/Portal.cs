@@ -42,7 +42,7 @@ public class Portal : MonoBehaviour
 	{
 		for (int i = 0; i < mainRuneDatas.Count; i++)
 		{
-			slots[i].SetRuneIcon(mainRuneDatas[i].Icon);
+			slots[i].SetRuneIcon(mainRuneDatas[i].Icon, mainRuneDatas[i].Color);
 			yield return null;
 		}
 

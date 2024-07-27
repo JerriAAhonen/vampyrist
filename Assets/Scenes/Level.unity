@@ -16869,7 +16869,9 @@ MonoBehaviour:
   shardPrefab: {fileID: 4480055902616057036, guid: 17a87fa9992a53e4aa91313fce68e25a, type: 3}
   allMainRuneDatas:
   - {fileID: 11400000, guid: c0c44eac7c0406048a07854ecffe60b2, type: 2}
-  - {fileID: 11400000, guid: 862c0d9fb0b4fc14c9f617c6b4f049d4, type: 2}
+  - {fileID: 11400000, guid: 67f496b4e48e9e5429ba75c3f6fbbd89, type: 2}
+  - {fileID: 11400000, guid: 980cf26509177f74aa6c9e0a29a45e8b, type: 2}
+  - {fileID: 11400000, guid: 18f499299175470419a7d555f5a77900, type: 2}
 --- !u!4 &309305362
 Transform:
   m_ObjectHideFlags: 0
@@ -19577,7 +19579,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRuneDatas:
   - {fileID: 11400000, guid: c0c44eac7c0406048a07854ecffe60b2, type: 2}
-  - {fileID: 11400000, guid: 862c0d9fb0b4fc14c9f617c6b4f049d4, type: 2}
+  - {fileID: 11400000, guid: 67f496b4e48e9e5429ba75c3f6fbbd89, type: 2}
+  - {fileID: 11400000, guid: 980cf26509177f74aa6c9e0a29a45e8b, type: 2}
+  - {fileID: 11400000, guid: 18f499299175470419a7d555f5a77900, type: 2}
   portal: {fileID: 1731515876}
   runeCirclesController: {fileID: 1668731829}
   shardsController: {fileID: 309305361}

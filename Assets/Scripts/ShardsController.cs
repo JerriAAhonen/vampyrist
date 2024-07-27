@@ -16,20 +16,21 @@ public class ShardsController : MonoBehaviour
 
 		foreach (var rune in mainRunes)
 			foreach (var shardData in rune.Shards)
-				yield return SpawnShard(shardData);
+				yield return SpawnShard(shardData, rune.Color);
 
 		var randAmountExtraShards = Random.Range(Mathf.RoundToInt(spawnedRuneDatas.Count / 2f), spawnedRuneDatas.Count);
 		Debug.Log($"Spawn {randAmountExtraShards} extra shards");
 
 		for (int i = 0; i < randAmountExtraShards; i++)
 		{
+			MainRuneData randMainRuneData;
 			RuneData randShardData;
 			var counter = 0;
 			var limit = 100;
 			do
 			{
-				var randMainData = allMainRuneDatas.Random();
-				randShardData = randMainData.Shards.Random();
+				randMainRuneData = allMainRuneDatas.Random();
+				randShardData = randMainRuneData.Shards.Random();
 				counter++;
 
 				if (counter > limit)
@@ -40,17 +41,17 @@ public class ShardsController : MonoBehaviour
 
 			} while (spawnedRuneDatas.Contains(randShardData));
 
-			yield return SpawnShard(randShardData);
+			yield return SpawnShard(randShardData, randMainRuneData.Color);
 		}
 
-		IEnumerator SpawnShard(RuneData shardData)
+		IEnumerator SpawnShard(RuneData shardData, Color color)
 		{
 			spawnedRuneDatas.Add(shardData);
 
 			var randPos = MathUtil.GetRandomPositionInCircle(minRadius, maxRadius);
 			// TODO Check no overlap
 			var shard = Instantiate(shardPrefab, transform);
-			shard.Init(shardData);
+			shard.Init(shardData, color);
 			shard.transform.position = randPos;
 			yield return null;
 		}

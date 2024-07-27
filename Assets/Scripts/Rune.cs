@@ -5,9 +5,9 @@ using UnityEngine;
 public class Rune : MonoBehaviour
 {
 	[SerializeField] private RuneData data;
+	[SerializeField] private SpriteRenderer icon;
 
 	private Rigidbody2D rb;
-	private SpriteRenderer spriteRenderer;
 	private float throwForce = 20f;
 	private float startingLinearDrag = 0f;
 	private float linearDragIncrease = 0.05f;
@@ -22,8 +22,6 @@ public class Rune : MonoBehaviour
 	private void Awake()
 	{
 		rb = GetComponent<Rigidbody2D>();
-		spriteRenderer = GetComponent<SpriteRenderer>();
-		spriteRenderer.sprite = data.Icon;
 	}
 
 	private void FixedUpdate()
@@ -43,10 +41,11 @@ public class Rune : MonoBehaviour
 		Gizmos.DrawWireSphere(transform.position, checkRadius);
 	}
 
-	public void Init(RuneData data)
+	public void Init(RuneData data, Color color)
 	{
 		this.data = data;
-		spriteRenderer.sprite = data.Icon;
+		icon.sprite = data.Icon;
+		icon.color = color;
 	}
 
 	public void Pickup()
@@ -74,7 +73,7 @@ public class Rune : MonoBehaviour
 			rb.drag = startingLinearDrag;
 
 			yield return null;
-			
+
 			Debug.Log($"Throw {dir * throwForce}");
 			rb.AddForce(dir * throwForce, ForceMode2D.Impulse);
 

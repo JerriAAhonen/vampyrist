@@ -8,8 +8,6 @@ public class RuneCircle : MonoBehaviour
 {
 	// Name : ShadowBinder's Circle
 
-	[SerializeField] private RuneSlot runeSlotPrefab;
-
 	private readonly List<RuneData> runes = new();
 
 	private SpriteRenderer spriteRenderer;
@@ -30,8 +28,8 @@ public class RuneCircle : MonoBehaviour
 	{
 		this.portal = portal;
 		this.mainRune = mainRune;
-		mainRuneSlot.SetRuneIcon(mainRune.Icon);
-		yield return InitSlots();
+		mainRuneSlot.SetRuneIcon(mainRune.Icon, mainRune.Color);
+		yield return null;
 	}
 
 	public bool SetRune(RuneData rune)
@@ -97,12 +95,12 @@ public class RuneCircle : MonoBehaviour
 		portal.OnCircleComplete(this);
 	}
 
-	private IEnumerator InitSlots()
+	/*private IEnumerator InitSlots()
 	{
 		var slotCount = mainRune.ShardAmount;
 
 		var angleStep = 360f / slotCount;
-		var startingAngle = 90f;
+		var startingAngle = -90f;
 
 		if (slotCount == 2)
 			startingAngle = 0f;
@@ -116,5 +114,5 @@ public class RuneCircle : MonoBehaviour
 			slot.transform.localPosition = position;
 			yield return null;
 		}
-	}
+	}*/
 }

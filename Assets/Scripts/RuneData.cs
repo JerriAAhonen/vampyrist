@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using NaughtyAttributes;
+using UnityEngine;
 
 [CreateAssetMenu(menuName ="RuneData", fileName ="RuneData")]
 public class RuneData : ScriptableObject
 {
+	[ShowAssetPreview]
 	[SerializeField] private Sprite icon;
 
 	public Sprite Icon => icon;
