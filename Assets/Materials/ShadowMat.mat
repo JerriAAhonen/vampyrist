@@ -40,13 +40,13 @@ Material:
     - _DEBUG: 2.2
     - _Scale: 27.21
     - _Speed: 0.02
-    - _Step: 0.4182053
+    - _Step: 0.46255514
     - _StepMax: 0.39
     - _StepMin: 0.3
     - _StepSmooth: 0
     m_Colors:
     - _PlayerPos: {r: 2.781, g: -0.165, b: 0, a: 0}
-    - _Speed: {r: -0.018871203, g: -0.07726563, b: 0, a: 0}
+    - _Speed: {r: -0.0224261, g: -0.020396383, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &7818161138862308500
 MonoBehaviour:
