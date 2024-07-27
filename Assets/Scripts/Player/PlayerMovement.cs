@@ -8,12 +8,16 @@ public class PlayerMovement : MonoBehaviour
 	[SerializeField] private float jumpDuration = 0.2f;
 	[SerializeField] private float jumpSpeed = 8f;
 	[SerializeField] private Transform visualTm;
+	[SerializeField] private Transform animParentTm;
 
 	private PlayerController controller;
 	private PlayerInteraction interaction;
 	private Rigidbody2D rb;
 	private Vector2 prevMovement;
 	private bool jumping;
+	private Vector3 targetVisualScale = Vector3.one;
+	private Vector3 targetAnimScale = Vector3.one;
+	private float startMovingTime = -1f;
 
 	public Vector2 MovementDir { get; private set; }
 
@@ -50,11 +54,24 @@ public class PlayerMovement : MonoBehaviour
 
 		if (!jumping)
 		{
-			rb.velocity = movementSpeed * Time.deltaTime * movement;
+			rb.velocity = movementSpeed * Time.fixedDeltaTime * movement;
 		}
 		
 		if (rb.velocity.sqrMagnitude > 0f)
-			visualTm.localScale = movement.x >= 0 ? new Vector3(1, visualTm.localScale.y, visualTm.localScale.z) : new Vector3(-1, visualTm.localScale.y, visualTm.localScale.z);
+		{
+			targetVisualScale = movement.x >= 0 ? new Vector3(1, visualTm.localScale.y, visualTm.localScale.z) : new Vector3(-1, visualTm.localScale.y, visualTm.localScale.z);
+			
+			if (startMovingTime < 0f)
+				startMovingTime = 0f;
+			var bounceOffset = 1f + (Mathf.Abs(Mathf.Sin((Time.time - startMovingTime) * 10f)) * 0.2f);
+			animParentTm.localScale = new Vector3(1f, bounceOffset, 1f);
+		}
+        else
+        {
+			animParentTm.localScale = Vector3.MoveTowards(animParentTm.localScale, Vector3.one, Time.fixedDeltaTime * 10f);
+        }
+
+        visualTm.localScale = Vector3.Lerp(visualTm.localScale, targetVisualScale, Time.fixedDeltaTime * 20f);
 	}
 
 	private void OnDestroy()
