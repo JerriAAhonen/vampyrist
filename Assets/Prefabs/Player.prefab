@@ -126,7 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 200
   jumpDuration: 0.2
-  jumpSpeed: 400
+  jumpSpeed: 600
   visualTm: {fileID: 2261613964692210272}
 --- !u!114 &2080939352564642316
 MonoBehaviour:
@@ -206,8 +206,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.73822844, y: 1.7474682}
+  m_Offset: {x: 0, y: -0.57132447}
+  m_Size: {x: 0.46, y: 0.5567918}
   m_Direction: 0
 --- !u!1 &4027554746477048557
 GameObject:
