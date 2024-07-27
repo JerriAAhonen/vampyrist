@@ -13,6 +13,8 @@ public class ShadowController : Singleton<ShadowController>
 	private float step;
 	private float stepIncreaseSpeed;
 
+	private WaitForEndOfFrame waitForEndOfFrame;
+
 	public bool InSunlight { get; private set; }
 
 	public void Init(Vector2 movementSpeed, float step, float stepIncreaseSpeed)
@@ -24,15 +26,17 @@ public class ShadowController : Singleton<ShadowController>
 		shadowMaterial.SetFloat("_Step", step);
 		
 		StartCoroutine(ReadPixelRoutine());
+		StartCoroutine(StepIncreaseRoutine());
 	}
 
 	public void SetPlayerWorldPos(Vector2 pos) => playerWorldPos = pos;
 
 	private IEnumerator ReadPixelRoutine()
 	{
-		while (true) // TODO
+		waitForEndOfFrame = new WaitForEndOfFrame();
+		while (PlayerController.Instance.IsAlive)
 		{
-			yield return new WaitForEndOfFrame();
+			yield return waitForEndOfFrame;
 
 			RenderTexture.active = renderTexture;
 			cam.targetTexture = renderTexture;
@@ -57,6 +61,17 @@ public class ShadowController : Singleton<ShadowController>
 			/*InSunlight = color == Color.white;
 			Debug.Log($"Color: {color} == {Color.white}: {InSunlight}");*/
 			//Debug.Log(InSunlight);
+		}
+	}
+
+	private IEnumerator StepIncreaseRoutine()
+	{
+		while (PlayerController.Instance.IsAlive)
+		{
+			yield return null;
+
+			step += stepIncreaseSpeed * Time.deltaTime;
+			shadowMaterial.SetFloat("_Step", step);
 		}
 	}
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Singleton<PlayerController>
 {
 	private PlayerHealth health;
 	private PlayerMovement movement;
@@ -9,8 +9,10 @@ public class PlayerController : MonoBehaviour
 	public bool IsAlive { get; private set; }
 	public bool AllowPlayerControls => IsAlive && !LevelController.Instance.GamePaused;
 
-	private void Awake()
+	protected override void Awake()
 	{
+		base.Awake();
+
 		health = GetComponent<PlayerHealth>();
 		movement = GetComponent<PlayerMovement>();
 		interaction = GetComponent<PlayerInteraction>();

@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class LevelController : Singleton<LevelController>
 {
+	public const string PP_Key_Highscore = "Highscore";
+
 	[Header("Portal")]
 	[SerializeField] private List<MainRuneData> mainRuneDatas;
 	[SerializeField] private Portal portal;
@@ -163,6 +165,10 @@ public class LevelController : Singleton<LevelController>
 	public void OnPlayerDied()
 	{
 		failRoot.SetActive(true);
+
+		var hs = PlayerPrefs.GetInt(PP_Key_Highscore, -1);
+		if (levelIndex > hs)
+			PlayerPrefs.SetInt(PP_Key_Highscore, levelIndex);
 	}
 
 	private void OnRestart()
