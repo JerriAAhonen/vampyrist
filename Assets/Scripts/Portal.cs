@@ -8,6 +8,7 @@ public class Portal : MonoBehaviour
 {
 	[SerializeField] private List<MainRuneSlot> slots;
 	[SerializeField] private LayerMask playerLayer;
+	[SerializeField] private Transform innerPortalParentTm;
 
 	private bool isComplete;
 	private SpriteRenderer spriteRenderer;
@@ -16,6 +17,7 @@ public class Portal : MonoBehaviour
 	private void Awake()
 	{
 		spriteRenderer = GetComponent<SpriteRenderer>();
+		innerPortalParentTm.localScale = Vector3.zero;
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
@@ -67,5 +69,9 @@ public class Portal : MonoBehaviour
 		// TODO Activate portal
 		spriteRenderer.color = Color.green;
 		isComplete = true;
+
+		LeanTween.value(0f, 1f, 0.5f)
+			.setOnUpdate(v => innerPortalParentTm.localScale = Vector3.one * v)
+			.setEase(LeanTweenType.easeOutBack);
 	}
 }
