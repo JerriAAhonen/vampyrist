@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
 	[SerializeField] private float movementSpeed = 3f;
 	[SerializeField] private float jumpDuration = 0.2f;
 	[SerializeField] private float jumpSpeed = 8f;
+	[SerializeField] private Transform visualTm;
 
 	private PlayerController controller;
 	private PlayerInteraction interaction;
@@ -51,6 +52,9 @@ public class PlayerMovement : MonoBehaviour
 		{
 			rb.velocity = movementSpeed * Time.deltaTime * movement;
 		}
+		
+		if (rb.velocity.sqrMagnitude > 0f)
+			visualTm.localScale = movement.x >= 0 ? new Vector3(1, visualTm.localScale.y, visualTm.localScale.z) : new Vector3(-1, visualTm.localScale.y, visualTm.localScale.z);
 	}
 
 	private void OnDestroy()

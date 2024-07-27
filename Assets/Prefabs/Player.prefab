@@ -127,6 +127,7 @@ MonoBehaviour:
   movementSpeed: 200
   jumpDuration: 0.2
   jumpSpeed: 400
+  visualTm: {fileID: 2261613964692210272}
 --- !u!114 &2080939352564642316
 MonoBehaviour:
   m_ObjectHideFlags: 0
