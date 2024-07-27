@@ -8,6 +8,7 @@ public class InputController : Singleton<InputController>
 	public Vector2 Movement { get; private set; }
 	public event Action Jump;
 	public event Action Interact;
+	public event Action Pause;
 
 	private void Update()
 	{
@@ -15,5 +16,6 @@ public class InputController : Singleton<InputController>
 		
 		if (Input.GetKeyDown(KeyCode.Space)) Jump?.Invoke();
 		if (Input.GetKeyDown(KeyCode.E)) Interact?.Invoke();
+		if (Input.GetKeyDown(KeyCode.Escape)) Pause?.Invoke();
 	}
 }

@@ -1,13 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering;
 
 public class ShadowController : Singleton<ShadowController>
 {
-	[SerializeField] private float xOffset;
-	[SerializeField] private float yOffset;
-	[SerializeField] private float scale;
-	[SerializeField] private float step;
 	[SerializeField] private Material shadowMaterial;
 	[SerializeField] private RenderTexture renderTexture;
 	[SerializeField] private SpriteRenderer spriteRenderer;
@@ -15,11 +10,19 @@ public class ShadowController : Singleton<ShadowController>
 
 	private Texture2D texture;
 	private Vector2 playerWorldPos;
+	private float step;
+	private float stepIncreaseSpeed;
 
 	public bool InSunlight { get; private set; }
 
-	public void Init()
+	public void Init(Vector2 movementSpeed, float step, float stepIncreaseSpeed)
 	{
+		this.step = step;
+		this.stepIncreaseSpeed = stepIncreaseSpeed;
+
+		shadowMaterial.SetVector("_Speed", movementSpeed);
+		shadowMaterial.SetFloat("_Step", step);
+		
 		StartCoroutine(ReadPixelRoutine());
 	}
 
@@ -38,9 +41,7 @@ public class ShadowController : Singleton<ShadowController>
 			cam.enabled = false;
 
 			if (texture == null)
-			{
 				texture = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGBA32, false);
-			}
 
 			texture.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
 			texture.Apply();

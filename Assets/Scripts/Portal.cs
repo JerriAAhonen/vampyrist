@@ -7,13 +7,27 @@ using UnityEngine;
 public class Portal : MonoBehaviour
 {
 	[SerializeField] private List<MainRuneSlot> slots;
+	[SerializeField] private LayerMask playerLayer;
 
+	private bool isComplete;
 	private SpriteRenderer spriteRenderer;
 	private List<RuneCircle> circles;
 
 	private void Awake()
 	{
 		spriteRenderer = GetComponent<SpriteRenderer>();
+	}
+
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		if (!isComplete)
+			return;
+
+		if (BitMaskUtil.MaskContainsLayer(playerLayer, collision.gameObject.layer))
+		{
+			LevelController.Instance.OnEnterPortal();
+			isComplete = false;
+		}
 	}
 
 	public IEnumerator Init(List<MainRuneData> mainRuneDatas, List<RuneCircle> circles)
@@ -25,6 +39,7 @@ public class Portal : MonoBehaviour
 		}
 
 		this.circles = circles;
+		isComplete = false;
 	}
 
 	public void OnCircleComplete(RuneCircle circle)
@@ -45,5 +60,6 @@ public class Portal : MonoBehaviour
 	{
 		// TODO Activate portal
 		spriteRenderer.color = Color.green;
+		isComplete = true;
 	}
 }

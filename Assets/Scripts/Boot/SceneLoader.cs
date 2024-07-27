@@ -34,6 +34,7 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
 			op.allowSceneActivation = true;
 			yield return op;
 			yield return null;
+			Debug.Log(LevelController.Instance, LevelController.Instance);
 			yield return LevelController.Instance.Init(index);
 			yield return loadingCanvas.Hide();
 		}

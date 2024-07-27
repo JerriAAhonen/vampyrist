@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
 	[SerializeField] private float jumpDuration = 0.2f;
 	[SerializeField] private float jumpSpeed = 8f;
 
+	private PlayerController controller;
 	private PlayerInteraction interaction;
 	private Rigidbody2D rb;
 	private Vector2 prevMovement;
@@ -15,9 +16,14 @@ public class PlayerMovement : MonoBehaviour
 
 	public Vector2 MovementDir { get; private set; }
 
+	public void Init(PlayerController controller, PlayerInteraction interaction)
+	{
+		this.controller = controller;
+		this.interaction = interaction;
+	}
+
 	private void Awake()
 	{
-		interaction = GetComponent<PlayerInteraction>();
 		rb = GetComponent<Rigidbody2D>();
 	}
 
@@ -28,6 +34,12 @@ public class PlayerMovement : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		if (!controller.AllowPlayerControls)
+		{
+			rb.velocity = Vector2.zero;
+			return;
+		}
+
 		var movement = InputController.Instance.Movement;
 		if (movement.sqrMagnitude > 0f)
 		{
@@ -47,8 +59,17 @@ public class PlayerMovement : MonoBehaviour
 			InputController.Instance.Jump -= OnJump;
 	}
 
+	public void OnDie()
+	{
+		if (InputController.Instance)
+			InputController.Instance.Jump -= OnJump;
+	}
+
 	private void OnJump()
 	{
+		if (!controller.AllowPlayerControls)
+			return;
+
 		if (!jumping && !interaction.IsCarrying)
 			StartCoroutine(JumpRoutine());
 	}

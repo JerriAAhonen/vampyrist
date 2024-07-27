@@ -7,15 +7,17 @@ public class PlayerInteraction : MonoBehaviour
 	[SerializeField] private LayerMask groundedRuneMask;
 	[SerializeField] private LayerMask carryingRuneMask;
 
+	private PlayerController controller;
 	private PlayerMovement movement;
 	private float interactionRadius = 0.5f;
 	private Rune carryingRune;
 
 	public bool IsCarrying => carryingRune != null;
 
-	private void Awake()
+	public void Init(PlayerController controller, PlayerMovement movement)
 	{
-		movement = GetComponent<PlayerMovement>();
+		this.controller = controller;
+		this.movement = movement;
 	}
 
 	private void Start()
@@ -46,6 +48,12 @@ public class PlayerInteraction : MonoBehaviour
 
 		Gizmos.color = Color.yellow;
 		Gizmos.DrawWireSphere(transform.position, interactionRadius);
+	}
+
+	public void OnDie()
+	{
+		if (InputController.Instance)
+			InputController.Instance.Interact -= OnInteract;
 	}
 
 	private void OnInteract()

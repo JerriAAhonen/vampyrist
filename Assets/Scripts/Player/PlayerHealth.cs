@@ -9,10 +9,19 @@ public class PlayerHealth : MonoBehaviour
 	[SerializeField] private float maxTimeInSunlight;
 	[SerializeField] private Image fill;
 
+	private PlayerController controller;
 	private float timeInSunlight;
+
+	public void Init(PlayerController controller)
+	{
+		this.controller = controller;
+	}
 
 	private void Update()
 	{
+		if (!controller.AllowPlayerControls)
+			return;
+
 		ShadowController.Instance.SetPlayerWorldPos(transform.position);
 		var inSunlight = ShadowController.Instance.InSunlight;
 		if (inSunlight)
@@ -35,17 +44,17 @@ public class PlayerHealth : MonoBehaviour
 
 	private void Reset()
 	{
-		
+
 	}
 
 	private void SetVisuals()
 	{
-		Debug.Log(timeInSunlight);
 		fill.fillAmount = 1 - (timeInSunlight / maxTimeInSunlight);
 	}
 
 	private void Die()
 	{
 		Debug.Log("Die!");
+		controller.OnDie();
 	}
 }
