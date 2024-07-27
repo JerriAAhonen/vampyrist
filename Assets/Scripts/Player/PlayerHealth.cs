@@ -56,5 +56,19 @@ public class PlayerHealth : MonoBehaviour
 	{
 		Debug.Log("Die!");
 		controller.OnDie();
+
+		StartCoroutine(ScaleDown());
+		IEnumerator ScaleDown()
+		{
+			var elapsed = 0f;
+			var dur = 1f;
+
+			while (elapsed < dur)
+			{
+				elapsed += Time.deltaTime;
+				transform.localScale = Vector3.one * (1 - (elapsed / dur));
+				yield return null;
+			}
+		}
 	}
 }
