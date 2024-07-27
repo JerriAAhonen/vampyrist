@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class PlayerController : Singleton<PlayerController>
 {
@@ -7,7 +8,8 @@ public class PlayerController : Singleton<PlayerController>
 	private PlayerInteraction interaction;
 
 	public bool IsAlive { get; private set; }
-	public bool AllowPlayerControls => IsAlive && !LevelController.Instance.GamePaused;
+	public bool IsEnteringPortal { get; private set; }
+	public bool AllowPlayerControls => IsAlive && !IsEnteringPortal && !LevelController.Instance.GamePaused;
 
 	protected override void Awake()
 	{
@@ -32,5 +34,25 @@ public class PlayerController : Singleton<PlayerController>
 		movement.OnDie();
 		interaction.OnDie();
 		LevelController.Instance.OnPlayerDied();
+		StartCoroutine(ScaleDownAnim());
+	}
+
+	public IEnumerator OnEnterPortal()
+	{
+		IsEnteringPortal = true;
+		yield return ScaleDownAnim();
+	}
+
+	private IEnumerator ScaleDownAnim()
+	{
+		var elapsed = 0f;
+		var dur = 1f;
+
+		while (elapsed < dur)
+		{
+			elapsed += Time.deltaTime;
+			transform.localScale = Vector3.one * (1 - (elapsed / dur));
+			yield return null;
+		}
 	}
 }

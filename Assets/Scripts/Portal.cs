@@ -25,8 +25,14 @@ public class Portal : MonoBehaviour
 
 		if (BitMaskUtil.MaskContainsLayer(playerLayer, collision.gameObject.layer))
 		{
-			LevelController.Instance.OnEnterPortal();
+			StartCoroutine(Routine());
 			isComplete = false;
+		}
+
+		IEnumerator Routine()
+		{
+			yield return PlayerController.Instance.OnEnterPortal();
+			LevelController.Instance.OnEnterPortal();
 		}
 	}
 
