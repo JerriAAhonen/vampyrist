@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class Rune : MonoBehaviour
 {
 	[SerializeField] private RuneData data;
 	[SerializeField] private SpriteRenderer icon;
+	[SerializeField] private Light2D glow;
 
 	private Rigidbody2D rb;
 	private float throwForce = 20f;
@@ -45,7 +47,8 @@ public class Rune : MonoBehaviour
 	{
 		this.data = data;
 		icon.sprite = data.Icon;
-		icon.color = mainRuneData.Color;
+		//icon.color = mainRuneData.Color;
+		glow.color = mainRuneData.Color;
 	}
 
 	public void Pickup()

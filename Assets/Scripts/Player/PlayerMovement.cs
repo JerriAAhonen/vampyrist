@@ -63,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
 			
 			if (startMovingTime < 0f)
 				startMovingTime = 0f;
-			var bounceOffset = 1f + (Mathf.Abs(Mathf.Sin((Time.time - startMovingTime) * 10f)) * 0.2f);
+			var bounceOffset = 1f + (Mathf.Abs(Mathf.Sin((Time.time - startMovingTime) * 10f)) * 0.1f);
 			animParentTm.localScale = new Vector3(1f, bounceOffset, 1f);
 		}
         else
