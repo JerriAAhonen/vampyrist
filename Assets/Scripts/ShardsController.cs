@@ -7,8 +7,8 @@ public class ShardsController : MonoBehaviour
 	[SerializeField] private Rune shardPrefab;
 	[SerializeField] private List<MainRuneData> allMainRuneDatas;
 
-	private float minRadius = 3f;
-	private float maxRadius = 8f;
+	private float minRadius = 8f;
+	private float maxRadius = 15f;
 
 	public IEnumerator Init(List<MainRuneData> mainRunes)
 	{
@@ -47,9 +47,13 @@ public class ShardsController : MonoBehaviour
 		IEnumerator SpawnShard(RuneData shardData, Color color)
 		{
 			spawnedRuneDatas.Add(shardData);
+			Vector2 randPos;
 
-			var randPos = MathUtil.GetRandomPositionInCircle(minRadius, maxRadius);
-			// TODO Check no overlap
+			do
+			{
+				randPos = MathUtil.GetRandomPositionInCircle(minRadius, maxRadius);
+			} while (Physics2D.OverlapCircle(randPos, 0.5f) != null);
+
 			var shard = Instantiate(shardPrefab, transform);
 			shard.Init(shardData, color);
 			shard.transform.position = randPos;
