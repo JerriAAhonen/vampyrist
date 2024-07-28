@@ -15,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
 	private Rigidbody2D rb;
 	private Vector2 prevMovement;
 	private bool jumping;
+	private float jumpCooldownDur = 1f;
+	private float jumpCooldown;
 	private Vector3 targetVisualScale = Vector3.one;
 	private Vector3 targetAnimScale = Vector3.one;
 	private float startMovingTime = -1f;
@@ -55,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
 		if (!jumping)
 		{
 			rb.velocity = movementSpeed * Time.fixedDeltaTime * movement;
+			jumpCooldown -= Time.deltaTime;
 		}
 		
 		if (rb.velocity.sqrMagnitude > 0f)
@@ -88,16 +91,18 @@ public class PlayerMovement : MonoBehaviour
 
 	private void OnJump()
 	{
-		if (!controller.AllowPlayerControls)
-			return;
+		if (!controller.AllowPlayerControls) return;
+		if (jumpCooldown > 0f) return;
+		if (jumping) return;
+		if (interaction.IsCarrying) return;
 
-		if (!jumping && !interaction.IsCarrying)
-			StartCoroutine(JumpRoutine());
+		StartCoroutine(JumpRoutine());
 	}
 
 	private IEnumerator JumpRoutine()
 	{
 		jumping = true;
+		jumpCooldown = jumpCooldownDur;
 
 		var elapsed = 0f;
 		while (elapsed < jumpDuration)
