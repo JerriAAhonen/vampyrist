@@ -15,7 +15,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.159
+    m_Value: 1
 --- !u!114 &-5223694590118814159
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -36,8 +36,8 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: -7.5
   colorFilter:
-    m_OverrideState: 0
-    m_Value: {r: 1, g: 1, b: 1, a: 1}
+    m_OverrideState: 1
+    m_Value: {r: 3.9999995, g: 0.18848154, b: 0.42084372, a: 1}
   hueShift:
     m_OverrideState: 0
     m_Value: 0
@@ -54,7 +54,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
-  m_Name: Global Volume Profile
+  m_Name: Damage Global Volume Profile
   m_EditorClassIdentifier: 
   components:
   - {fileID: 3446715361111146636}
@@ -79,7 +79,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.3
+    m_Value: 0.433
   xMultiplier:
     m_OverrideState: 0
     m_Value: 1
@@ -113,7 +113,7 @@ MonoBehaviour:
     m_Value: 0.5
   intensity:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 3.43
   scatter:
     m_OverrideState: 0
     m_Value: 0.7
@@ -157,7 +157,7 @@ MonoBehaviour:
     m_Value: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.418
+    m_Value: 1
   response:
     m_OverrideState: 1
     m_Value: 0.779
@@ -225,10 +225,10 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.282
+    m_Value: 0.48
   smoothness:
     m_OverrideState: 1
-    m_Value: 0.213
+    m_Value: 0.11
   rounded:
     m_OverrideState: 0
     m_Value: 0

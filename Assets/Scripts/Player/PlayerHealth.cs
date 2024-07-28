@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
@@ -9,12 +10,21 @@ public class PlayerHealth : MonoBehaviour
 	[SerializeField] private float maxTimeInSunlight;
 	[SerializeField] private Image fill;
 
+	[SerializeField] private Volume normalVolume;
+	[SerializeField] private Volume damageVolume;
+
 	private PlayerController controller;
 	private float timeInSunlight;
 
 	public void Init(PlayerController controller)
 	{
 		this.controller = controller;
+	}
+
+	private void Awake()
+	{
+		normalVolume.weight = 1f;
+		damageVolume.weight = 0f;
 	}
 
 	private void Update()
@@ -50,6 +60,22 @@ public class PlayerHealth : MonoBehaviour
 	private void SetVisuals()
 	{
 		fill.fillAmount = 1 - (timeInSunlight / maxTimeInSunlight);
+
+		// Damage effect
+		var threshold = maxTimeInSunlight / 2f;
+
+		if (timeInSunlight <= threshold)
+		{
+			// If the time in sunlight is less than or equal to the threshold, weight is 0
+			damageVolume.weight = 0f;
+		}
+		else
+		{
+			// If the time in sunlight is greater than the threshold, calculate the weight
+			var adjustedTimeInSunlight = timeInSunlight - threshold;
+			var adjustedMaxTime = maxTimeInSunlight - threshold;
+			damageVolume.weight = Mathf.Clamp01(adjustedTimeInSunlight / adjustedMaxTime);
+		}
 	}
 
 	private void Die()

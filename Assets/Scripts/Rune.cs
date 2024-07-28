@@ -89,7 +89,7 @@ public class Rune : MonoBehaviour, IHighlightable
 
 			yield return null;
 
-			Debug.Log($"Throw {dir * throwForce}");
+			//Debug.Log($"Throw {dir * throwForce}");
 			rb.AddForce(dir * throwForce, ForceMode2D.Impulse);
 
 			while (rb.velocity.sqrMagnitude > 0f)
