@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 
-public class RuneSlot : MonoBehaviour
+public class RuneSlot : MonoBehaviour, IHighlightable
 {
+	[SerializeField] private GameObject highlight;
+	[SerializeField] private LayerMask playerLayer;
+
 	private RuneCircle circle;
 	private Rune insertedRune;
 
@@ -9,9 +12,12 @@ public class RuneSlot : MonoBehaviour
 	public bool HasRune => insertedRune != null;
 	public Rune InsertedRune => insertedRune;
 
+	public Vector3 Position => transform.position;
+
 	private void Awake()
 	{
 		circle = GetComponentInParent<RuneCircle>();
+		highlight.SetActive(false);
 	}
 
 	public void InsertRune(Rune rune)
@@ -19,7 +25,7 @@ public class RuneSlot : MonoBehaviour
 		if (Locked)
 			return;
 
-        insertedRune = rune;
+		insertedRune = rune;
 		rune.transform.SetParent(transform);
 		rune.transform.localPosition = Vector3.zero;
 
@@ -35,5 +41,10 @@ public class RuneSlot : MonoBehaviour
 
 		circle.RemoveRune(insertedRune.Data);
 		insertedRune = null;
+	}
+
+	public void ActivateHighlight(bool activate)
+	{
+		highlight.SetActive(activate);
 	}
 }

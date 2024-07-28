@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class Rune : MonoBehaviour
+public class Rune : MonoBehaviour, IHighlightable
 {
 	[SerializeField] private RuneData data;
 	[SerializeField] private SpriteRenderer icon;
+	[SerializeField] private GameObject baseOutline;
 	[SerializeField] private Light2D glow;
+	[SerializeField] private LayerMask groundedRuneMask;
+	[SerializeField] private LayerMask carryingRuneMask;
 
+	private RuneSlot slot;
 	private Rigidbody2D rb;
 	private float throwForce = 20f;
 	private float startingLinearDrag = 0f;
@@ -16,14 +20,14 @@ public class Rune : MonoBehaviour
 	private bool inCarry;
 	private float checkRadius = 0.4f;
 
-	private RuneSlot slot;
-
 	public RuneData Data => data;
 	public bool CanPickup => slot == null || !slot.Locked;
+	public Vector3 Position => transform.position;
 
 	private void Awake()
 	{
 		rb = GetComponent<Rigidbody2D>();
+		baseOutline.SetActive(false);
 	}
 
 	private void FixedUpdate()
@@ -51,7 +55,7 @@ public class Rune : MonoBehaviour
 		glow.color = mainRuneData.Color;
 	}
 
-	public void Pickup()
+	public void Pickup(Transform parent)
 	{
 		if (slot && slot.Locked)
 			return;
@@ -64,10 +68,18 @@ public class Rune : MonoBehaviour
 			slot.RemoveRune();
 			slot = null;
 		}
+
+		transform.SetParent(parent);
+		transform.localPosition = Vector3.zero;
+
+		SetCarrying();
 	}
 
 	public void Throw(Vector2 dir)
 	{
+		SetGrounded();
+		transform.SetParent(null);
+
 		StartCoroutine(Routine());
 
 		IEnumerator Routine()
@@ -98,6 +110,13 @@ public class Rune : MonoBehaviour
 		slot.InsertRune(this);
 		rb.velocity = Vector2.zero;
 		rb.isKinematic = true;
+
+		SetGrounded();
+	}
+
+	public void ActivateHighlight(bool activate)
+	{
+		baseOutline.SetActive(activate);
 	}
 
 	private void CheckForSlot()
@@ -112,5 +131,17 @@ public class Rune : MonoBehaviour
 				return;
 			}
 		}
+	}
+
+	private void SetGrounded()
+	{
+		var groundedRuneLayer = Mathf.RoundToInt(Mathf.Log(groundedRuneMask.value, 2));
+		gameObject.layer = groundedRuneLayer;
+	}
+
+	private void SetCarrying()
+	{
+		var carryingRuneLayer = Mathf.RoundToInt(Mathf.Log(carryingRuneMask.value, 2));
+		gameObject.layer = carryingRuneLayer;
 	}
 }

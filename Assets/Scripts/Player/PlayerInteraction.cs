@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
@@ -6,11 +7,16 @@ public class PlayerInteraction : MonoBehaviour
 	[SerializeField] private Transform carryParent;
 	[SerializeField] private LayerMask groundedRuneMask;
 	[SerializeField] private LayerMask carryingRuneMask;
+	[SerializeField] private LayerMask runeSlotMask;
 
 	private PlayerController controller;
 	private PlayerMovement movement;
-	private float interactionRadius = 0.5f;
+	private float interactionRadius = 1f;
+	private Vector3 defaultCarryParentPos;
 	private Rune carryingRune;
+
+	private IHighlightable highlightedRune;
+	private IHighlightable highlightedSlot;
 
 	public bool IsCarrying => carryingRune != null;
 
@@ -23,16 +29,34 @@ public class PlayerInteraction : MonoBehaviour
 	private void Start()
 	{
 		InputController.Instance.Interact += OnInteract;
+		defaultCarryParentPos = carryParent.localPosition;
 	}
 
 	private void Update()
 	{
-		var hits = Physics2D.CircleCastAll(transform.position, interactionRadius, transform.forward, groundedRuneMask).ToList();
+		// Carry parent
+		if (movement.MovementDir.x >= 0)
+			carryParent.transform.localPosition = defaultCarryParentPos;
+		else
+			carryParent.transform.localPosition = new Vector3(-defaultCarryParentPos.x, defaultCarryParentPos.y, defaultCarryParentPos.z);
 
-		if (hits.Count > 0)
-		{
-			// TODO Show tooltip
-		}
+		// Grounded runes
+		var hits = Physics2D.CircleCastAll(transform.position, interactionRadius, transform.forward, 0f, groundedRuneMask);
+		var highlightables = new List<IHighlightable>(hits.Length);
+		foreach (var hit in hits)
+			highlightables.Add(hit.transform.GetComponent<IHighlightable>());
+		HighlightClosest(highlightables, ref highlightedRune);
+
+		// Rune slots
+		// Cannot highlight if not carrying any
+		if (!carryingRune)
+			return;
+
+		hits = Physics2D.CircleCastAll(transform.position, interactionRadius, transform.forward, 0f, runeSlotMask);
+		highlightables = new List<IHighlightable>(hits.Length);
+		foreach (var hit in hits)
+			highlightables.Add(hit.transform.GetComponent<IHighlightable>());
+		HighlightClosest(highlightables, ref highlightedSlot);
 	}
 
 	private void OnDestroy()
@@ -94,46 +118,70 @@ public class PlayerInteraction : MonoBehaviour
 
 		void Pickup(Rune rune)
 		{
-			Debug.Log("Pickup");
-
 			carryingRune = rune;
-			rune.Pickup();
-			rune.transform.SetParent(carryParent);
-			rune.transform.localPosition = Vector3.zero;
-
-			// TODO Move to Rune.cs
-			var carryingRuneLayer = Mathf.RoundToInt(Mathf.Log(carryingRuneMask.value, 2));
-			rune.gameObject.layer = carryingRuneLayer;
+			rune.Pickup(carryParent);
 		}
 
 		void InsertInSlot(RuneSlot slot)
 		{
-			Debug.Log("InsertInSlot");
-
+			var oldRune = carryingRune;
+			
 			var runeInSlot = slot.InsertedRune;
-			carryingRune.transform.SetParent(null);
-
-			// TODO Move to Rune.cs
-			var groundedRuneLayer = Mathf.RoundToInt(Mathf.Log(groundedRuneMask.value, 2));
-			carryingRune.gameObject.layer = groundedRuneLayer;
-
-			carryingRune.InsertIntoSlot(slot);
-			carryingRune = null;
-
 			if (runeInSlot)
 				Pickup(runeInSlot);
+			
+			oldRune.InsertIntoSlot(slot);
+			carryingRune = runeInSlot;
 		}
 
 		void Throw()
 		{
-			Debug.Log("Throw");
-
-			carryingRune.transform.SetParent(null);
 			carryingRune.Throw(movement.MovementDir);
-
-			var groundedRuneLayer = Mathf.RoundToInt(Mathf.Log(groundedRuneMask.value, 2));
-			carryingRune.gameObject.layer = groundedRuneLayer;
 			carryingRune = null;
 		}
 	}
+
+	private void HighlightClosest(List<IHighlightable> hits, ref IHighlightable current)
+	{
+		// If we hit any runes on the ground
+		if (hits.Count > 0)
+		{
+			var dist = 999f;
+			IHighlightable closest = null;
+			foreach (var hit in hits)
+			{
+				// Calculate distance to this rune
+				var newDist = Vector3.Distance(hit.Position, transform.position);
+				if (newDist < dist)
+				{
+					// If it's shorter than the previous, save it as the new closest one
+					dist = newDist;
+					closest = hit;
+				}
+			}
+
+			// If we indeed found a rune close by, and it's not the highlighted rune (which it shouldn't)
+			if (closest != null && closest != current)
+			{
+				// If we have a highlighted rune, deactivate it
+				current?.ActivateHighlight(false);
+
+				// Activate new highlighted rune
+				current = closest;
+				current.ActivateHighlight(true);
+			}
+		}
+		// We didn't hit anything, deactivate the old one if there is one
+		else
+		{
+			current?.ActivateHighlight(false);
+			current = null;
+		}
+	}
+}
+
+public interface IHighlightable
+{
+	public Vector3 Position { get; }
+	public void ActivateHighlight(bool activate);
 }

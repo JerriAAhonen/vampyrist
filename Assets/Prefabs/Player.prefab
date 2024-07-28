@@ -180,6 +180,9 @@ MonoBehaviour:
   carryingRuneMask:
     serializedVersion: 2
     m_Bits: 256
+  runeSlotMask:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!50 &745926285399578636
 Rigidbody2D:
   serializedVersion: 4
@@ -445,7 +448,7 @@ Transform:
   m_GameObject: {fileID: 4716859230185621600}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.675, z: 0}
+  m_LocalPosition: {x: 0.89, y: -0.241, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
