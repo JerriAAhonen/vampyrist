@@ -41,11 +41,11 @@ public class Rune : MonoBehaviour
 		Gizmos.DrawWireSphere(transform.position, checkRadius);
 	}
 
-	public void Init(RuneData data, Color color)
+	public void Init(RuneData data, MainRuneData mainRuneData)
 	{
 		this.data = data;
 		icon.sprite = data.Icon;
-		icon.color = color;
+		icon.color = mainRuneData.Color;
 	}
 
 	public void Pickup()

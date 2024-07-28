@@ -16,7 +16,7 @@ public class ShardsController : MonoBehaviour
 
 		foreach (var rune in mainRunes)
 			foreach (var shardData in rune.Shards)
-				yield return SpawnShard(shardData, rune.Color);
+				yield return SpawnShard(shardData, rune);
 
 		var randAmountExtraShards = Random.Range(Mathf.RoundToInt(spawnedRuneDatas.Count / 2f), spawnedRuneDatas.Count);
 		Debug.Log($"Spawn {randAmountExtraShards} extra shards");
@@ -41,10 +41,10 @@ public class ShardsController : MonoBehaviour
 
 			} while (spawnedRuneDatas.Contains(randShardData));
 
-			yield return SpawnShard(randShardData, randMainRuneData.Color);
+			yield return SpawnShard(randShardData, randMainRuneData);
 		}
 
-		IEnumerator SpawnShard(RuneData shardData, Color color)
+		IEnumerator SpawnShard(RuneData shardData, MainRuneData mainRuneData)
 		{
 			spawnedRuneDatas.Add(shardData);
 			Vector2 randPos;
@@ -55,7 +55,7 @@ public class ShardsController : MonoBehaviour
 			} while (Physics2D.OverlapCircle(randPos, 0.5f) != null);
 
 			var shard = Instantiate(shardPrefab, transform);
-			shard.Init(shardData, color);
+			shard.Init(shardData, mainRuneData);
 			shard.transform.position = randPos;
 			yield return null;
 		}

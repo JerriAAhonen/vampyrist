@@ -4,9 +4,9 @@ public class MainRuneSlot : MonoBehaviour
 {
 	[SerializeField] private SpriteRenderer spriteRenderer;
 
-	public void SetRuneIcon(Sprite icon, Color color)
+	public void SetRuneIcon(MainRuneData data)
 	{
-		spriteRenderer.sprite = icon;
-		spriteRenderer.color = color;
+		spriteRenderer.sprite = data.Icon;
+		spriteRenderer.color = data.Color;
 	}
 }

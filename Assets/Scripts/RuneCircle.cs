@@ -10,7 +10,6 @@ public class RuneCircle : MonoBehaviour
 
 	private readonly List<RuneData> runes = new();
 
-	private SpriteRenderer spriteRenderer;
 	private MainRuneSlot mainRuneSlot;
 	private MainRuneData mainRune;
 	private Portal portal;
@@ -20,7 +19,6 @@ public class RuneCircle : MonoBehaviour
 
 	private void Awake()
 	{
-		spriteRenderer = GetComponent<SpriteRenderer>();
 		mainRuneSlot = GetComponentInChildren<MainRuneSlot>();
 	}
 
@@ -28,7 +26,7 @@ public class RuneCircle : MonoBehaviour
 	{
 		this.portal = portal;
 		this.mainRune = mainRune;
-		mainRuneSlot.SetRuneIcon(mainRune.Icon, mainRune.Color);
+		mainRuneSlot.SetRuneIcon(mainRune);
 		yield return null;
 	}
 
