@@ -15,7 +15,7 @@ public class InputController : Singleton<InputController>
 		Movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
 		
 		if (Input.GetKeyDown(KeyCode.Space)) Jump?.Invoke();
-		if (Input.GetKeyDown(KeyCode.E)) Interact?.Invoke();
+		if (Input.GetMouseButtonDown(0)) Interact?.Invoke();
 		if (Input.GetKeyDown(KeyCode.Escape)) Pause?.Invoke();
 	}
 }

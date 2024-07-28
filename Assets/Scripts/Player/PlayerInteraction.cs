@@ -136,7 +136,17 @@ public class PlayerInteraction : MonoBehaviour
 
 		void Throw()
 		{
-			carryingRune.Throw(movement.MovementDir);
+			// Get the mouse position in screen coordinates
+			Vector3 mouseScreenPosition = Input.mousePosition;
+
+			// Convert the mouse position to world coordinates
+			Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
+
+			// Calculate the direction from the player to the mouse position
+			Vector2 direction = (mouseWorldPosition - transform.position).normalized;
+
+
+			carryingRune.Throw(direction);
 			carryingRune = null;
 		}
 	}

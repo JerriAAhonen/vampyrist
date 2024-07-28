@@ -14,7 +14,7 @@ public class Rune : MonoBehaviour, IHighlightable
 
 	private RuneSlot slot;
 	private Rigidbody2D rb;
-	private float throwForce = 20f;
+	private float throwForce = 40f;
 	private float startingLinearDrag = 0f;
 	private float linearDragIncrease = 0.05f;
 	private bool inCarry;
