@@ -17,12 +17,12 @@ public class LevelController : Singleton<LevelController>
 	[SerializeField] private ShardsController shardsController;
 	[Header("UI")]
 	[SerializeField] private GameObject failRoot;
-	[SerializeField] private Button failRestartButton;
-	[SerializeField] private Button failMainMenuButton;
+	[SerializeField] private DefaultButton failRestartButton;
+	[SerializeField] private DefaultButton failMainMenuButton;
 	[Space]
 	[SerializeField] private GameObject pauseRoot;
-	[SerializeField] private Button pauseContinueButton;
-	[SerializeField] private Button pauseMainMenuButton;
+	[SerializeField] private DefaultButton pauseContinueButton;
+	[SerializeField] private DefaultButton pauseMainMenuButton;
 	[Space]
 	[SerializeField] private TextMeshProUGUI currentLevelText;
 	[Header("Level Settings")]
@@ -39,12 +39,12 @@ public class LevelController : Singleton<LevelController>
 		base.Awake();
 
 		failRoot.SetActive(false);
-		failRestartButton.onClick.AddListener(OnRestart);
-		failMainMenuButton.onClick.AddListener(OnMainMenu);
+		failRestartButton.OnClick.AddListener(OnRestart);
+		failMainMenuButton.OnClick.AddListener(OnMainMenu);
 
 		pauseRoot.SetActive(false);
-		pauseContinueButton.onClick.AddListener(OnContinue);
-		pauseMainMenuButton.onClick.AddListener(OnMainMenu);
+		pauseContinueButton.OnClick.AddListener(OnContinue);
+		pauseMainMenuButton.OnClick.AddListener(OnMainMenu);
 	}
 
 	private void Update()
