@@ -146,6 +146,11 @@ public class LevelController : Singleton<LevelController>
 
 	#region Pause
 
+	public void PauseGame(bool pause)
+	{
+		GamePaused = pause;
+	}
+
 	private void OnPause()
 	{
 		GamePaused = true;
