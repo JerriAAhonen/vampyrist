@@ -144,7 +144,7 @@ public class PlayerInteraction : MonoBehaviour
 
 			// Calculate the direction from the player to the mouse position
 			Vector2 direction = (mouseWorldPosition - transform.position).normalized;
-
+			direction.Normalize();
 
 			carryingRune.Throw(direction);
 			carryingRune = null;

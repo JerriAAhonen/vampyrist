@@ -157,17 +157,17 @@ public class LevelController : Singleton<LevelController>
 	private void OnPause()
 	{
 		GamePaused = true;
+		Time.timeScale = 0f;
 		pauseRoot.SetActive(true);
 		GamePauseStateChanged?.Invoke(true);
-		Time.timeScale = 0f;
 	}
 
 	private void OnContinue()
 	{
 		GamePaused = false;
+		Time.timeScale = 1f;
 		pauseRoot.SetActive(false);
 		GamePauseStateChanged?.Invoke(false);
-		Time.timeScale = 1f;
 	}
 
 	#endregion
@@ -194,11 +194,13 @@ public class LevelController : Singleton<LevelController>
 
 	private void OnRestart()
 	{
+		Time.timeScale = 1f;
 		SceneLoader.Instance.LoadLevel(0);
 	}
 
 	private void OnMainMenu()
 	{
+		Time.timeScale = 1f;
 		SceneLoader.Instance.LoadMenu();
 	}
 

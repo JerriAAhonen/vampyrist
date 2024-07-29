@@ -9,12 +9,12 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
 	private int menuSceneIndex = 1;
 	private int levelSceneIndex = 2;
 
-	public void LoadMenu(bool instant = false)
+	public void LoadMenu()
 	{
 		StartCoroutine(Routine());
 		IEnumerator Routine()
 		{
-			yield return loadingCanvas.Show(instant);
+			yield return loadingCanvas.Show();
 
 			var op = SceneManager.LoadSceneAsync(menuSceneIndex, LoadSceneMode.Single);
 			op.allowSceneActivation = true;
@@ -28,7 +28,7 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
 		StartCoroutine(Routine());
 		IEnumerator Routine()
 		{
-			yield return loadingCanvas.Show(false);
+			yield return loadingCanvas.Show();
 
 			var op = SceneManager.LoadSceneAsync(levelSceneIndex, LoadSceneMode.Single);
 			op.allowSceneActivation = true;
