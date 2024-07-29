@@ -21,6 +21,6 @@ public class Boot : MonoBehaviour
 	private void Start()
 	{
 		Debug.Log("Boot.Start()");
-		SceneLoader.Instance.LoadMenu(true);
+		SceneLoader.Instance.LoadMenu();
 	}
 }

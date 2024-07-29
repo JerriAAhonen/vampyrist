@@ -7,8 +7,8 @@ public class ShardsController : MonoBehaviour
 	[SerializeField] private Rune shardPrefab;
 	[SerializeField] private List<MainRuneData> allMainRuneDatas;
 
-	private float minRadius = 8f;
-	private float maxRadius = 15f;
+	[SerializeField] private float minRadius = 8f;
+	[SerializeField] private float maxRadius = 15f;
 
 	public IEnumerator Init(List<MainRuneData> mainRunes)
 	{
@@ -59,5 +59,15 @@ public class ShardsController : MonoBehaviour
 			shard.transform.position = randPos;
 			yield return null;
 		}
+	}
+
+	private void OnDrawGizmos()
+	{
+		if (Application.isPlaying 
+			&& !DebugManager.Instance.ShowDebugOverlay) 
+			return;
+
+		Gizmos.DrawWireSphere(transform.position, minRadius);
+		Gizmos.DrawWireSphere(transform.position, maxRadius);
 	}
 }

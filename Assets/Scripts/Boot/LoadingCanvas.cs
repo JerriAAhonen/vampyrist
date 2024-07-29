@@ -15,7 +15,7 @@ public class LoadingCanvas : MonoBehaviour
 		canvas = GetComponent<Canvas>();
 	}
 
-	public IEnumerator Show(bool instant)
+	public IEnumerator Show()
 	{
 		if (isVisible)
 			yield break;
@@ -23,13 +23,6 @@ public class LoadingCanvas : MonoBehaviour
 		isVisible = true;
 		bg.fillAmount = 0f;
 		gameObject.SetActive(true);
-
-		if (instant)
-		{
-			bg.fillAmount = 1f;
-			batsParent.gameObject.SetActive(false);
-			yield break;
-		}
 
 		batsParent.gameObject.SetActive(true);
 
