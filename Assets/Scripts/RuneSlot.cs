@@ -2,6 +2,7 @@
 
 public class RuneSlot : MonoBehaviour, IHighlightable
 {
+	[SerializeField] private RuneSlotSide side;
 	[SerializeField] private GameObject highlight;
 	[SerializeField] private LayerMask playerLayer;
 
@@ -31,7 +32,7 @@ public class RuneSlot : MonoBehaviour, IHighlightable
 
 		// TODO anims
 
-		var valid = circle.SetRune(rune.Data);
+		var valid = circle.SetRune(rune.Data, side);
 	}
 
 	public void RemoveRune()
@@ -39,7 +40,7 @@ public class RuneSlot : MonoBehaviour, IHighlightable
 		if (!insertedRune) return;
 		if (Locked) return;
 
-		circle.RemoveRune(insertedRune.Data);
+		circle.RemoveRune(insertedRune.Data, side);
 		insertedRune = null;
 	}
 

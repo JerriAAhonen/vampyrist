@@ -3,23 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.UI;
+
+public enum RuneSlotSide
+{
+	Bottom, Right, Left
+}
 
 public class RuneCircle : MonoBehaviour
 {
 	// Name : ShadowBinder's Circle
+
+	[SerializeField] private Image bottom;
+	[SerializeField] private Image right;
+	[SerializeField] private Image left;
+	[SerializeField] private Image center;
 
 	private readonly List<RuneData> runes = new();
 
 	private MainRuneSlot mainRuneSlot;
 	private MainRuneData mainRune;
 	private Portal portal;
-	private float slotDistance = 2f;
 
 	public bool Complete { get; private set; }
 
 	private void Awake()
 	{
 		mainRuneSlot = GetComponentInChildren<MainRuneSlot>();
+		bottom.fillAmount = 0f;
+		right.fillAmount = 0f;
+		left.fillAmount = 0f;
+		center.fillAmount = 0f;
 	}
 
 	public IEnumerator Init(Portal portal, MainRuneData mainRune)
@@ -30,7 +44,7 @@ public class RuneCircle : MonoBehaviour
 		yield return null;
 	}
 
-	public bool SetRune(RuneData rune)
+	public bool SetRune(RuneData rune, RuneSlotSide side)
 	{
 		runes.Add(rune);
 
@@ -39,15 +53,18 @@ public class RuneCircle : MonoBehaviour
 
 		//Debug.Log($"isValid: {isValid}, isDuplicate: {isDuplicate}");
 
+		AnimateSide(side, true);
+
 		if (isValid && !isDuplicate && IsComplete())
 			OnComplete();
 
 		return isValid && !isDuplicate;
 	}
 
-	public void RemoveRune(RuneData rune)
+	public void RemoveRune(RuneData rune, RuneSlotSide side)
 	{
 		runes.Remove(rune);
+		AnimateSide(side, false);
 	}
 
 	private bool HasDuplicates(List<RuneData> list)
@@ -64,6 +81,33 @@ public class RuneCircle : MonoBehaviour
 		}
 
 		return false;
+	}
+
+	private void AnimateSide(RuneSlotSide side, bool hasRune)
+	{
+		var from = hasRune ? 0f : 1f;
+		var to = hasRune ? 1f : 0f;
+
+		if (side == RuneSlotSide.Bottom)
+		{
+			LeanTween.value(from, to, 0.2f)
+				.setOnUpdate(v => bottom.fillAmount = v);
+			return;
+		}
+
+		if (side == RuneSlotSide.Right)
+		{
+			LeanTween.value(from, to, 0.2f)
+				.setOnUpdate(v => right.fillAmount = v);
+			return;
+		}
+
+		if (side == RuneSlotSide.Left)
+		{
+			LeanTween.value(from, to, 0.2f)
+				.setOnUpdate(v => left.fillAmount = v);
+			return;
+		}
 	}
 
 	private bool IsComplete()
@@ -85,9 +129,13 @@ public class RuneCircle : MonoBehaviour
 
 	private void OnComplete()
 	{
-		//Debug.Log("Circle complete!");
 		Complete = true;
 		portal.OnCircleComplete(this);
+
+		IEnumerator Routine()
+		{
+			yield return null;
+		}
 	}
 
 	/*private IEnumerator InitSlots()
