@@ -54,7 +54,9 @@ public class DefaultButton : MonoBehaviour
 				{
 					l.rt.anchoredPosition = Vector3.Lerp(Vector3.zero, l.pos, v);
 				}
-			}).uniqueId;
+			})
+			.setIgnoreTimeScale(true)
+			.uniqueId;
 	}
 
 	public void OnHoverExit()
@@ -70,6 +72,8 @@ public class DefaultButton : MonoBehaviour
 				{
 					l.rt.anchoredPosition = Vector3.Lerp(Vector3.zero, l.pos, v);
 				}
-			}).uniqueId;
+			})
+			.setIgnoreTimeScale(true)
+			.uniqueId;
 	}
 }

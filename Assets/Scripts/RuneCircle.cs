@@ -15,9 +15,13 @@ public class RuneCircle : MonoBehaviour
 	// Name : ShadowBinder's Circle
 
 	[SerializeField] private Image bottom;
+	[SerializeField] private Image bottomWhite;
 	[SerializeField] private Image right;
+	[SerializeField] private Image rightWhite;
 	[SerializeField] private Image left;
+	[SerializeField] private Image leftWhite;
 	[SerializeField] private Image center;
+	[SerializeField] private Image centerWhite;
 
 	private readonly List<RuneData> runes = new();
 
@@ -31,9 +35,13 @@ public class RuneCircle : MonoBehaviour
 	{
 		mainRuneSlot = GetComponentInChildren<MainRuneSlot>();
 		bottom.fillAmount = 0f;
+		bottomWhite.fillAmount = 1f;
 		right.fillAmount = 0f;
+		rightWhite.fillAmount = 1f;
 		left.fillAmount = 0f;
+		leftWhite.fillAmount = 1f;
 		center.fillAmount = 0f;
+		centerWhite.fillAmount = 1f;
 	}
 
 	public IEnumerator Init(Portal portal, MainRuneData mainRune)
@@ -41,6 +49,11 @@ public class RuneCircle : MonoBehaviour
 		this.portal = portal;
 		this.mainRune = mainRune;
 		mainRuneSlot.SetRuneIcon(mainRune);
+		
+		bottom.color = mainRune.Color;
+		right.color = mainRune.Color;
+		left.color = mainRune.Color;
+		center.color = mainRune.Color;
 		yield return null;
 	}
 
@@ -53,7 +66,8 @@ public class RuneCircle : MonoBehaviour
 
 		//Debug.Log($"isValid: {isValid}, isDuplicate: {isDuplicate}");
 
-		AnimateSide(side, true);
+		if (isValid)
+			AnimateSide(side, true);
 
 		if (isValid && !isDuplicate && IsComplete())
 			OnComplete();
@@ -64,7 +78,10 @@ public class RuneCircle : MonoBehaviour
 	public void RemoveRune(RuneData rune, RuneSlotSide side)
 	{
 		runes.Remove(rune);
-		AnimateSide(side, false);
+
+		var wasValid = mainRune.IsValidShard(rune);
+		if (wasValid)
+			AnimateSide(side, false);
 	}
 
 	private bool HasDuplicates(List<RuneData> list)
@@ -91,21 +108,33 @@ public class RuneCircle : MonoBehaviour
 		if (side == RuneSlotSide.Bottom)
 		{
 			LeanTween.value(from, to, 0.2f)
-				.setOnUpdate(v => bottom.fillAmount = v);
+				.setOnUpdate(v =>
+				{
+					bottom.fillAmount = v;
+					bottomWhite.fillAmount = 1 - v;
+				});
 			return;
 		}
 
 		if (side == RuneSlotSide.Right)
 		{
 			LeanTween.value(from, to, 0.2f)
-				.setOnUpdate(v => right.fillAmount = v);
+				.setOnUpdate(v =>
+				{
+					right.fillAmount = v;
+					rightWhite.fillAmount = 1 - v;
+				});
 			return;
 		}
 
 		if (side == RuneSlotSide.Left)
 		{
 			LeanTween.value(from, to, 0.2f)
-				.setOnUpdate(v => left.fillAmount = v);
+				.setOnUpdate(v =>
+				{
+					left.fillAmount = v;
+					leftWhite.fillAmount = 1 - v;
+				});
 			return;
 		}
 	}
@@ -132,10 +161,12 @@ public class RuneCircle : MonoBehaviour
 		Complete = true;
 		portal.OnCircleComplete(this);
 
-		IEnumerator Routine()
-		{
-			yield return null;
-		}
+		LeanTween.value(0f, 1f, 1f)
+			.setOnUpdate(v =>
+			{
+				center.fillAmount = v;
+				centerWhite.fillAmount = 1 - v;
+			});
 	}
 
 	/*private IEnumerator InitSlots()

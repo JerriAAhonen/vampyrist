@@ -10,6 +10,7 @@ public class ShadowController : Singleton<ShadowController>
 
 	private Texture2D texture;
 	private Vector2 playerWorldPos;
+	private Vector2 movementSpeed;
 	private float step;
 	private float stepIncreaseSpeed;
 
@@ -19,6 +20,7 @@ public class ShadowController : Singleton<ShadowController>
 
 	public void Init(Vector2 movementSpeed, float step, float stepIncreaseSpeed)
 	{
+		this.movementSpeed = movementSpeed;
 		this.step = step;
 		this.stepIncreaseSpeed = stepIncreaseSpeed;
 
@@ -27,6 +29,15 @@ public class ShadowController : Singleton<ShadowController>
 		
 		StartCoroutine(ReadPixelRoutine());
 		StartCoroutine(StepIncreaseRoutine());
+
+		LevelController.Instance.GamePauseStateChanged += OnGamePauseStateChanged;
+	}
+
+	protected override void OnDestroy()
+	{
+		if (LevelController.Instance)
+			LevelController.Instance.GamePauseStateChanged -= OnGamePauseStateChanged;
+		base.OnDestroy();
 	}
 
 	public void SetPlayerWorldPos(Vector2 pos) => playerWorldPos = pos;
@@ -73,5 +84,10 @@ public class ShadowController : Singleton<ShadowController>
 			step += stepIncreaseSpeed * Time.deltaTime;
 			shadowMaterial.SetFloat("_Step", step);
 		}
+	}
+
+	private void OnGamePauseStateChanged(bool pause)
+	{
+		//shadowMaterial.SetVector("_Speed", pause ? Vector2.zero : movementSpeed);
 	}
 }

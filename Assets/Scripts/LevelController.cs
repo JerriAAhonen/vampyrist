@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -33,6 +34,7 @@ public class LevelController : Singleton<LevelController>
 	private LevelSettings currentSettings;
 
 	public bool GamePaused { get; private set; }
+	public event Action<bool> GamePauseStateChanged;
 
 	protected override void Awake()
 	{
@@ -79,7 +81,7 @@ public class LevelController : Singleton<LevelController>
 
 	private IEnumerator RandomizeLevel()
 	{
-		var runeCount = Random.Range(1, 4); // 1 2 3
+		var runeCount = UnityEngine.Random.Range(1, 4); // 1 2 3
 		runeCount = 1; // TEMP
 
 		mainRunes = new List<MainRuneData>(runeCount);
@@ -149,18 +151,23 @@ public class LevelController : Singleton<LevelController>
 	public void PauseGame(bool pause)
 	{
 		GamePaused = pause;
+		GamePauseStateChanged?.Invoke(pause);
 	}
 
 	private void OnPause()
 	{
 		GamePaused = true;
 		pauseRoot.SetActive(true);
+		GamePauseStateChanged?.Invoke(true);
+		Time.timeScale = 0f;
 	}
 
 	private void OnContinue()
 	{
 		GamePaused = false;
 		pauseRoot.SetActive(false);
+		GamePauseStateChanged?.Invoke(false);
+		Time.timeScale = 1f;
 	}
 
 	#endregion

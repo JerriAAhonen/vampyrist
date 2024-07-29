@@ -37,7 +37,7 @@ public class PlayerHealth : MonoBehaviour
 		if (inSunlight)
 			timeInSunlight += sunlightDamageSpeed * Time.deltaTime;
 		else
-			timeInSunlight -= sunlightDamageSpeed * Time.deltaTime;
+			timeInSunlight -= sunlightDamageSpeed * Time.deltaTime * 2f;
 
 		timeInSunlight = Mathf.Max(0f, timeInSunlight);
 		if (timeInSunlight.Approximately(0f))
