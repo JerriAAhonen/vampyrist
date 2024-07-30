@@ -143,7 +143,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sunlightDamageSpeed: 1
   maxTimeInSunlight: 5
-  fill: {fileID: 8268186731360081507}
   normalVolume: {fileID: 0}
   damageVolume: {fileID: 0}
 --- !u!114 &5684398220549739060
@@ -161,6 +160,8 @@ MonoBehaviour:
   movementSpeed: 200
   jumpDuration: 0.2
   jumpSpeed: 600
+  canvasGroup: {fileID: 502006808076987746}
+  fill: {fileID: 8268186731360081507}
   visualTm: {fileID: 2261613964692210272}
   animParentTm: {fileID: 9202003454007367780}
   footstepEvent: {fileID: 11400000, guid: 965e29e48f14ac74ca33fe80dc0934b3, type: 2}
@@ -262,6 +263,7 @@ GameObject:
   - component: {fileID: 2271646045698305933}
   - component: {fileID: 8975111013377069313}
   - component: {fileID: 3977828939896782836}
+  - component: {fileID: 502006808076987746}
   m_Layer: 6
   m_Name: DashCooldownCanvas
   m_TagString: Untagged
@@ -310,7 +312,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: -2058006085
   m_SortingOrder: 999
   m_TargetDisplay: 0
 --- !u!114 &8975111013377069313
@@ -353,6 +355,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!225 &502006808076987746
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4027554746477048557}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &4433326961761610656
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,8 +401,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1.2936}
-  m_SizeDelta: {x: 3, y: 0.1129}
+  m_AnchoredPosition: {x: 0, y: -1.0229}
+  m_SizeDelta: {x: 1.0968, y: 0.047}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6473519418373981293
 CanvasRenderer:
@@ -594,8 +608,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1.2936}
-  m_SizeDelta: {x: 3, y: 0.1129}
+  m_AnchoredPosition: {x: 0, y: -1.0229}
+  m_SizeDelta: {x: 1.0968, y: 0.047}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2597020386800504476
 CanvasRenderer:

@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
 	[SerializeField] private float movementSpeed = 3f;
 	[SerializeField] private float jumpDuration = 0.2f;
 	[SerializeField] private float jumpSpeed = 8f;
+	[SerializeField] private CanvasGroup canvasGroup;
+	[SerializeField] private Image fill;
 	[SerializeField] private Transform visualTm;
 	[SerializeField] private Transform animParentTm;
 	[Space]
@@ -21,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
 	private bool jumping;
 	private float jumpCooldownDur = 1f;
 	private float jumpCooldown;
+	private int? jumpCooldownTweenId;
 	private Vector3 targetVisualScale = Vector3.one;
 	private Vector3 targetAnimScale = Vector3.one;
 	private float startMovingTime = -1f;
@@ -36,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
 	private void Awake()
 	{
 		rb = GetComponent<Rigidbody2D>();
+		canvasGroup.alpha = 0f;
 	}
 
 	private void Start()
@@ -61,7 +66,6 @@ public class PlayerMovement : MonoBehaviour
 		if (!jumping)
 		{
 			rb.velocity = movementSpeed * Time.fixedDeltaTime * movement;
-			jumpCooldown -= Time.deltaTime;
 		}
 		
 		if (rb.velocity.sqrMagnitude > 0f)
@@ -112,6 +116,11 @@ public class PlayerMovement : MonoBehaviour
 
 		AudioManager.Instance.PlayOnce(jumpEvent);
 
+		if (jumpCooldownTweenId.HasValue)
+			LeanTween.cancel(jumpCooldownTweenId.Value);
+
+		jumpCooldownTweenId = LeanTween.value(0f, 1f, 0.1f).setOnUpdate(v => canvasGroup.alpha = v).uniqueId;
+
 		var elapsed = 0f;
 		while (elapsed < jumpDuration)
 		{
@@ -124,5 +133,22 @@ public class PlayerMovement : MonoBehaviour
 		jumping = false;
 
 		AudioManager.Instance.PlayOnce(landEvent);
+
+		StartCoroutine(JumpCooldownRoutine());
+	}
+
+	private IEnumerator JumpCooldownRoutine()
+	{
+		while (jumpCooldown > 0f)
+		{
+			jumpCooldown -= Time.deltaTime;
+			fill.fillAmount = jumpCooldown / jumpCooldownDur;
+			yield return null;
+		}
+
+		if (jumpCooldownTweenId.HasValue)
+			LeanTween.cancel(jumpCooldownTweenId.Value);
+
+		jumpCooldownTweenId = LeanTween.value(1f, 0f, 0.1f).setOnUpdate(v => canvasGroup.alpha = v).uniqueId;
 	}
 }

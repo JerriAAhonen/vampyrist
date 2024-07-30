@@ -8,7 +8,6 @@ public class PlayerHealth : MonoBehaviour
 {
 	[SerializeField] private float sunlightDamageSpeed;
 	[SerializeField] private float maxTimeInSunlight;
-	[SerializeField] private Image fill;
 
 	[SerializeField] private Volume normalVolume;
 	[SerializeField] private Volume damageVolume;
@@ -59,8 +58,6 @@ public class PlayerHealth : MonoBehaviour
 
 	private void SetVisuals()
 	{
-		fill.fillAmount = 1 - (timeInSunlight / maxTimeInSunlight);
-
 		// Damage effect
 		var threshold = maxTimeInSunlight / 2f;
 
