@@ -8,6 +8,7 @@ public class PlayerHealth : MonoBehaviour
 {
 	[SerializeField] private float sunlightDamageSpeed;
 	[SerializeField] private float maxTimeInSunlight;
+	[SerializeField] private float damageEffectThreshold;
 
 	[SerializeField] private Volume normalVolume;
 	[SerializeField] private Volume damageVolume;
@@ -58,10 +59,7 @@ public class PlayerHealth : MonoBehaviour
 
 	private void SetVisuals()
 	{
-		// Damage effect
-		var threshold = maxTimeInSunlight / 2f;
-
-		if (timeInSunlight <= threshold)
+		if (timeInSunlight <= damageEffectThreshold)
 		{
 			// If the time in sunlight is less than or equal to the threshold, weight is 0
 			damageVolume.weight = 0f;
@@ -69,8 +67,8 @@ public class PlayerHealth : MonoBehaviour
 		else
 		{
 			// If the time in sunlight is greater than the threshold, calculate the weight
-			var adjustedTimeInSunlight = timeInSunlight - threshold;
-			var adjustedMaxTime = maxTimeInSunlight - threshold;
+			var adjustedTimeInSunlight = timeInSunlight - damageEffectThreshold;
+			var adjustedMaxTime = maxTimeInSunlight - damageEffectThreshold;
 			damageVolume.weight = Mathf.Clamp01(adjustedTimeInSunlight / adjustedMaxTime);
 		}
 	}

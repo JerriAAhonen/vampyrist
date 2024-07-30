@@ -143,6 +143,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sunlightDamageSpeed: 1
   maxTimeInSunlight: 5
+  damageEffectThreshold: 1
   normalVolume: {fileID: 0}
   damageVolume: {fileID: 0}
 --- !u!114 &5684398220549739060
