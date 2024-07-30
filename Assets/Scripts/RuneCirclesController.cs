@@ -6,42 +6,62 @@ public class RuneCirclesController : MonoBehaviour
 {
 	[SerializeField] private RuneCircle runeCirclePrefab;
 
-	private float circleDistance = 3f;
+	[SerializeField] private Transform oneRunePos;
+	[SerializeField] private List<Transform> twoRunesPos;
+	[SerializeField] private List<Transform> threeRunesPos;
+	[SerializeField] private List<Transform> fourRunesPos;
 
 	public List<RuneCircle> Circles { get; private set; }
 
 	public IEnumerator SetCircles(Portal portal, List<MainRuneData> mainRuneDatas)
 	{
-		var runeCount = mainRuneDatas.Count;
-		var angleStep = 360f / runeCount;
-		var startingAngle = 90f;
-		Circles = new(runeCount);
+		int count = mainRuneDatas.Count;
+		Circles = new(count);
 
-		if (runeCount == 1)
+		if (count == 1)
 		{
-			var runeCircle = Instantiate(runeCirclePrefab);
-			runeCircle.transform.SetParent(transform);
+			var circle = InstantiateInsideParent(oneRunePos);
 
-			yield return runeCircle.Init(portal, mainRuneDatas[0]);
-			Circles.Add(runeCircle);
+			yield return circle.Init(portal, mainRuneDatas[0]);
+			Circles.Add(circle);
 			yield break;
 		}
 
-		if (runeCount == 2)
-			startingAngle = 0f;
+		if (count == 2)
+		{
+			for (int i = 0; i < count; i++)
+			{
+				var circle = InstantiateInsideParent(twoRunesPos[i]);
+				yield return circle.Init(portal, mainRuneDatas[i]);
+				Circles.Add(circle);
+			}
+			yield break;
+		}
 
-		for (int i = 0; i < runeCount; i++)
+		if (count == 3)
+		{
+			for (int i = 0; i < count; i++)
+			{
+				var circle = InstantiateInsideParent(threeRunesPos[i]);
+				yield return circle.Init(portal, mainRuneDatas[i]);
+				Circles.Add(circle);
+			}
+			yield break;
+		}
+
+		for (int i = 0; i < count; i++)
+		{
+			var circle = InstantiateInsideParent(fourRunesPos[i]);
+			yield return circle.Init(portal, mainRuneDatas[i]);
+			Circles.Add(circle);
+		}
+
+		RuneCircle InstantiateInsideParent(Transform parent)
 		{
 			var runeCircle = Instantiate(runeCirclePrefab);
-			var angle = startingAngle - i * angleStep;
-			var position = MathUtil.CalculatePositionOnCircle(angle, circleDistance / transform.localScale.x);
-			
-			runeCircle.transform.SetParent(transform);
-			runeCircle.transform.localPosition = position;
-
-			yield return runeCircle.Init(portal, mainRuneDatas[i]);
-			Circles.Add(runeCircle);
-			yield return null;
+			runeCircle.transform.SetParent(parent);
+			runeCircle.transform.localPosition = Vector3.zero;
+			return runeCircle;
 		}
 	}
 }

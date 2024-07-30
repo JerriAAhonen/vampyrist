@@ -6,6 +6,10 @@ using UnityEngine;
 public class Portal : MonoBehaviour
 {
 	[SerializeField] private List<MainRuneSlot> slots;
+	[SerializeField] private int oneRuneIndex;
+	[SerializeField] private List<int> twoRunesIndex;
+	[SerializeField] private List<int> threeRunesIndex;
+
 	[SerializeField] private LayerMask playerLayer;
 	[SerializeField] private Transform innerPortalParentTm;
 	[SerializeField] private List<Transform> flames;
@@ -48,9 +52,21 @@ public class Portal : MonoBehaviour
 
 	public IEnumerator Init(List<MainRuneData> mainRuneDatas, List<RuneCircle> circles)
 	{
-		for (int i = 0; i < mainRuneDatas.Count; i++)
+		foreach (var slot in slots)
+			slot.RemoveIcon();
+
+		var count = mainRuneDatas.Count;
+		for (int i = 0; i < count; i++)
 		{
-			slots[i].SetRuneIcon(mainRuneDatas[i]);
+			if (count == 1)
+				slots[oneRuneIndex].SetRuneIcon(mainRuneDatas[i]);
+			else if (count == 2)
+				slots[twoRunesIndex[i]].SetRuneIcon(mainRuneDatas[i]);
+			else if (count == 3)
+				slots[threeRunesIndex[i]].SetRuneIcon(mainRuneDatas[i]);
+			else
+				slots[i].SetRuneIcon(mainRuneDatas[i]);
+
 			yield return null;
 		}
 

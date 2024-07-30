@@ -79,7 +79,6 @@ public class LevelController : Singleton<LevelController>
 	private IEnumerator RandomizeLevel()
 	{
 		var runeCount = levelSettings.GetRuneCount(levelIndex);
-		runeCount = 1; // TEMP
 
 		mainRunes = new List<MainRuneData>(runeCount);
 
