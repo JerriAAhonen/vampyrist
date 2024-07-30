@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class LevelController : Singleton<LevelController>
 {
@@ -27,11 +26,10 @@ public class LevelController : Singleton<LevelController>
 	[Space]
 	[SerializeField] private TextMeshProUGUI currentLevelText;
 	[Header("Level Settings")]
-	[SerializeField] private List<LevelSettings> levelSettings;
+	[SerializeField] private LevelSettings levelSettings;
 
 	private List<MainRuneData> mainRunes;
 	private int levelIndex;
-	private LevelSettings currentSettings;
 
 	public bool GamePaused { get; private set; }
 	public event Action<bool> GamePauseStateChanged;
@@ -60,7 +58,6 @@ public class LevelController : Singleton<LevelController>
 	public IEnumerator Init(int levelIndex)
 	{
 		this.levelIndex = levelIndex;
-		GetLevelSettings();
 		currentLevelText.text = $"Level {levelIndex + 1}";
 
 		yield return RandomizeLevel();
@@ -81,7 +78,7 @@ public class LevelController : Singleton<LevelController>
 
 	private IEnumerator RandomizeLevel()
 	{
-		var runeCount = UnityEngine.Random.Range(1, 4); // 1 2 3
+		var runeCount = levelSettings.GetRuneCount(levelIndex);
 		runeCount = 1; // TEMP
 
 		mainRunes = new List<MainRuneData>(runeCount);
@@ -102,46 +99,26 @@ public class LevelController : Singleton<LevelController>
 
 	private IEnumerator SetupRuneCircles()
 	{
-		Debug.Log(runeCirclesController, runeCirclesController);
 		yield return runeCirclesController.SetCircles(portal, mainRunes);
 	}
 
 	private IEnumerator SetupPortal()
 	{
-		Debug.Log(portal, portal);
 		yield return portal.Init(mainRunes, runeCirclesController.Circles);
 	}
 
 	private IEnumerator SetupRuneShards()
 	{
-		Debug.Log(shardsController, shardsController);
 		yield return shardsController.Init(mainRunes);
 	}
 
 	private IEnumerator SetupShadowSystem()
 	{
-		Debug.Log(ShadowController.Instance, ShadowController.Instance);
 		yield return null;
-		var movementSpeed = currentSettings.GetShadowMovementSpeed();
-		var step = currentSettings.GetStartingStep();
-		var stepIncreaseSpeed = currentSettings.GetStepIncreaseSpeed();
+		var movementSpeed = levelSettings.GetShadowMovementSpeed(levelIndex);
+		var step = levelSettings.GetStartingStep(levelIndex);
+		var stepIncreaseSpeed = levelSettings.GetStepIncreaseSpeed(levelIndex);
 		ShadowController.Instance.Init(movementSpeed, step, stepIncreaseSpeed);
-	}
-
-	private void GetLevelSettings()
-	{
-		foreach (var settings in levelSettings)
-		{
-			if (settings.IsInsideLevelRange(levelIndex))
-			{
-				Debug.Log($"[LevelController] using {settings} with levelIndex {levelIndex}");
-				currentSettings = settings;
-				return;
-			}
-		}
-
-		currentSettings = levelSettings[^1];
-		Debug.LogError($"[LevelController] No settings found for level {levelIndex}, using: {currentSettings}");
 	}
 
 	#endregion

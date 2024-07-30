@@ -5,35 +5,24 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class LevelSettings : ScriptableObject
 {
-	[SerializeField] private Vector2Int levelRange;
-	[Header("Runes")]
-	[Tooltip("Inclusive")]
-	[SerializeField] private Vector2Int mainRuneCountRange;
-	[Header("Shadow")]
-	[SerializeField] private Vector2 movementSpeedMin;
-	[SerializeField] private Vector2 movementSpeedMax;
-	[SerializeField] private Vector2 startingStepRange;
-	[SerializeField] private Vector2 stepRangeIncreaseSpeedRange;
+	[SerializeField] private int maxLevelIndex;
+	[SerializeField] private AnimationCurve shadowSpeed;
+	[SerializeField] private AnimationCurve shadowStep;
+	[SerializeField] private AnimationCurve shadowStepIncrease;
+	[SerializeField] private AnimationCurve runeCount;
 
-	public bool IsInsideLevelRange(int level) => levelRange.IsWithinXY(level);
-	public int GetRuneCount() => mainRuneCountRange.Random();
-	public Vector2 GetShadowMovementSpeed()
+	public int GetRuneCount(int levelIndex) => Mathf.RoundToInt(GetEvaluation(levelIndex, runeCount));
+	public Vector2 GetShadowMovementSpeed(int levelIndex)
 	{
-		int multiplier = 1;
-		if (Random.Range(0, 2) > 0)
-			multiplier = -1;
+		var dir = Random.insideUnitCircle;
+		var speed = GetEvaluation(levelIndex, shadowSpeed);
+		dir *= speed;
 
-		var x = Random.Range(movementSpeedMin.x, movementSpeedMax.x);
-		var y = Random.Range(movementSpeedMin.y, movementSpeedMax.y);
-
-		//Debug.Log($"xMin: {movementSpeedMin.x}, xMax: {movementSpeedMax.x}, = x = {x}");
-		//Debug.Log($"yMin: {movementSpeedMin.y}, yMax: {movementSpeedMax.y}, = y = {y}");
-
-		x *= multiplier;
-		y *= multiplier;
-
-		return new Vector2(x, y);
+		return dir;
 	}
-	public float GetStartingStep() => startingStepRange.Random();
-	public float GetStepIncreaseSpeed() => stepRangeIncreaseSpeedRange.Random();
+	public float GetStartingStep(int levelIndex) => GetEvaluation(levelIndex, shadowStep);
+	public float GetStepIncreaseSpeed(int levelIndex) => GetEvaluation(levelIndex, shadowStepIncrease);
+
+	private float GetEvaluation(int levelIndex, AnimationCurve curve) => curve.Evaluate(GetEvaluationTime(levelIndex));
+	private float GetEvaluationTime(int levelIndex) => Mathf.Clamp01((float)levelIndex / maxLevelIndex);
 }

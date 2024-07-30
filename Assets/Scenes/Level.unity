@@ -23259,9 +23259,7 @@ MonoBehaviour:
   pauseContinueButton: {fileID: 335163711}
   pauseMainMenuButton: {fileID: 1536053698}
   currentLevelText: {fileID: 608248282}
-  levelSettings:
-  - {fileID: 11400000, guid: 8f7ed070051960f40af94816b9b33710, type: 2}
-  - {fileID: 11400000, guid: 5e4436c7dab78ad49ae7baf4a1e96b7b, type: 2}
+  levelSettings: {fileID: 11400000, guid: 8f7ed070051960f40af94816b9b33710, type: 2}
 --- !u!4 &2126202980
 Transform:
   m_ObjectHideFlags: 0
