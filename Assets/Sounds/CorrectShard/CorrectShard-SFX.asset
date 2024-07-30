@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 451ce0139aed9494c932cbdfe16b1c68, type: 3}
+  m_Name: CorrectShard-SFX
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 5cb75eb983b16ef4fb144ab8a7cc3ec3, type: 3}
+  - {fileID: 8300000, guid: 7c25f2f636956554a8de532e813130e7, type: 3}
+  - {fileID: 8300000, guid: 5b920ef2093137142b5eb0e87d34780b, type: 3}
+  volume: 1
+  volumeVariance: 0
+  pitch: 1
+  pitchVariance: 0
+  minInterval: 0
+  delay: 0

@@ -22,6 +22,8 @@ public class RuneCircle : MonoBehaviour
 	[SerializeField] private Image leftWhite;
 	[SerializeField] private Image center;
 	[SerializeField] private Image centerWhite;
+	[Space]
+	[SerializeField] private AudioEvent validShardEvent;
 
 	private readonly List<RuneData> runes = new();
 
@@ -67,7 +69,10 @@ public class RuneCircle : MonoBehaviour
 		//Debug.Log($"isValid: {isValid}, isDuplicate: {isDuplicate}");
 
 		if (isValid)
+		{
 			AnimateSide(side, true);
+			AudioManager.Instance.PlayOnce(validShardEvent);
+		}
 
 		if (isValid && !isDuplicate && IsComplete())
 			OnComplete();

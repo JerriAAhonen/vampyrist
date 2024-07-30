@@ -465,7 +465,15 @@ MonoBehaviour:
     pos: {x: 2, y: -2}
   - rt: {fileID: 7124939237094816554}
     pos: {x: -2, y: -2}
+  texts:
+  - {fileID: 8421639972109847704}
+  - {fileID: 8386905373908539816}
+  - {fileID: 8046288324152743271}
+  - {fileID: 2669707832717743233}
+  - {fileID: 6916299986334321193}
   button: {fileID: 4193762221507400983}
+  hoverEvent: {fileID: 11400000, guid: a6a73b76fa30ce24a8f85612a16ddf1c, type: 2}
+  clickEvent: {fileID: 11400000, guid: be2d606d4d129d0429f48b89a220a79a, type: 2}
 --- !u!222 &6063765487983087851
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -599,6 +607,22 @@ MonoBehaviour:
         - m_Target: {fileID: 4042147084477489388}
           m_TargetAssemblyTypeName: DefaultButton, Assembly-CSharp
           m_MethodName: OnHoverExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4042147084477489388}
+          m_TargetAssemblyTypeName: DefaultButton, Assembly-CSharp
+          m_MethodName: OnPointerClick
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

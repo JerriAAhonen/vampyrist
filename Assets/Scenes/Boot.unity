@@ -122,6 +122,55 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &273732021
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 273732023}
+  - component: {fileID: 273732022}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &273732022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 273732021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a3fb486cf87c134dbed8b40a03828b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceContainer: {fileID: 273732023}
+  audioMixer: {fileID: 24100000, guid: 8d0d82a6133c01f498888b1bb13183d7, type: 2}
+  audioMixerGroup: {fileID: 24300002, guid: 8d0d82a6133c01f498888b1bb13183d7, type: 2}
+  music: {fileID: 8300000, guid: d2544487ff76cee4d96b484bed6e6841, type: 3}
+  musicVolume: 0.5
+--- !u!4 &273732023
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 273732021}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &296192471
 GameObject:
   m_ObjectHideFlags: 0
@@ -1813,3 +1862,4 @@ SceneRoots:
   - {fileID: 1385091577}
   - {fileID: 1283090378}
   - {fileID: 1922751208}
+  - {fileID: 273732023}

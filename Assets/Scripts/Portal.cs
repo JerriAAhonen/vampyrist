@@ -9,7 +9,9 @@ public class Portal : MonoBehaviour
 	[SerializeField] private LayerMask playerLayer;
 	[SerializeField] private Transform innerPortalParentTm;
 	[SerializeField] private List<Transform> flames;
-	[SerializeField] private GameObject vcam;
+	[SerializeField] private GameObject vcam; 
+	[Space]
+	[SerializeField] private AudioEvent activatePortalEvent;
 
 	private bool isComplete;
 	private SpriteRenderer spriteRenderer;
@@ -82,6 +84,8 @@ public class Portal : MonoBehaviour
 			vcam.SetActive(true);
 
 			yield return new WaitForSeconds(2f);
+
+			AudioManager.Instance.PlayOnce(activatePortalEvent);
 
 			LeanTween.value(0f, 1f, 0.5f)
 				.setOnUpdate(v => innerPortalParentTm.localScale = Vector3.one * v)

@@ -163,6 +163,9 @@ MonoBehaviour:
   jumpSpeed: 600
   visualTm: {fileID: 2261613964692210272}
   animParentTm: {fileID: 9202003454007367780}
+  footstepEvent: {fileID: 11400000, guid: 965e29e48f14ac74ca33fe80dc0934b3, type: 2}
+  jumpEvent: {fileID: 11400000, guid: 1b14118bb2e2ee74bb693f408972ce79, type: 2}
+  landEvent: {fileID: 11400000, guid: 3221d13d259e67a4980df3044cf9dd8f, type: 2}
 --- !u!114 &2080939352564642316
 MonoBehaviour:
   m_ObjectHideFlags: 0

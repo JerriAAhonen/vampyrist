@@ -27,6 +27,8 @@ public class MainMenu : MonoBehaviour
 		var hs = PlayerPrefs.GetInt(LevelController.PP_Key_Highscore, -1);
 		highscore.text = $"Highscore level {hs}";
 		highscore.gameObject.SetActive(hs > -1);
+
+		RefreshSoundButtonText();
 	}
 
 	private void OnPlay()
@@ -36,7 +38,8 @@ public class MainMenu : MonoBehaviour
 
 	private void OnSounds()
 	{
-
+		AudioManager.Instance.ToggleVolume();
+		RefreshSoundButtonText();
 	}
 
 	private void OnControls()
@@ -58,5 +61,13 @@ public class MainMenu : MonoBehaviour
 #if UNITY_EDITOR
 		UnityEditor.EditorApplication.isPlaying = false;
 #endif
+	}
+
+	private void RefreshSoundButtonText()
+	{
+		if (PlayerPrefs.GetInt(AudioManager.PPKey_VolumeOn) == 1)
+			soundButton.SetText("Sounds Off");
+		else
+			soundButton.SetText("Sounds On");
 	}
 }

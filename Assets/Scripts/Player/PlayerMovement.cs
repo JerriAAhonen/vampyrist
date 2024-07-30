@@ -9,6 +9,10 @@ public class PlayerMovement : MonoBehaviour
 	[SerializeField] private float jumpSpeed = 8f;
 	[SerializeField] private Transform visualTm;
 	[SerializeField] private Transform animParentTm;
+	[Space]
+	[SerializeField] private AudioEvent footstepEvent;
+	[SerializeField] private AudioEvent jumpEvent;
+	[SerializeField] private AudioEvent landEvent;
 
 	private PlayerController controller;
 	private PlayerInteraction interaction;
@@ -68,6 +72,8 @@ public class PlayerMovement : MonoBehaviour
 				startMovingTime = 0f;
 			var bounceOffset = 1f + (Mathf.Abs(Mathf.Sin((Time.time - startMovingTime) * 10f)) * 0.1f);
 			animParentTm.localScale = new Vector3(1f, bounceOffset, 1f);
+			
+			AudioManager.Instance.PlayOnce(footstepEvent);
 		}
         else
         {
@@ -104,6 +110,8 @@ public class PlayerMovement : MonoBehaviour
 		jumping = true;
 		jumpCooldown = jumpCooldownDur;
 
+		AudioManager.Instance.PlayOnce(jumpEvent);
+
 		var elapsed = 0f;
 		while (elapsed < jumpDuration)
 		{
@@ -114,5 +122,7 @@ public class PlayerMovement : MonoBehaviour
 		}
 
 		jumping = false;
+
+		AudioManager.Instance.PlayOnce(landEvent);
 	}
 }

@@ -760,6 +760,7 @@ MonoBehaviour:
   - {fileID: 288994570814325585}
   - {fileID: 5177914833171161618}
   vcam: {fileID: 7828086646195630906}
+  activatePortalEvent: {fileID: 11400000, guid: d2ecea8ddbad92d4a99e0a0c7e399bba, type: 2}
 --- !u!212 &6324829628429090031
 SpriteRenderer:
   m_ObjectHideFlags: 0

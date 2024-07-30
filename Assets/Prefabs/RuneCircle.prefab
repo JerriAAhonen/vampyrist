@@ -133,6 +133,7 @@ MonoBehaviour:
   leftWhite: {fileID: 6395504880955435257}
   center: {fileID: 6711060095599848952}
   centerWhite: {fileID: 1077454570441647590}
+  validShardEvent: {fileID: 11400000, guid: 7162fb56fad62494690bf8a968d352eb, type: 2}
 --- !u!212 &9030575702672709757
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 451ce0139aed9494c932cbdfe16b1c68, type: 3}
+  m_Name: PortalActivation-SFX
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: dc531fb5297e6b347b595362ee5eebce, type: 3}
+  - {fileID: 8300000, guid: c98e86b5dadee624f971954ccc0d566f, type: 3}
+  - {fileID: 8300000, guid: b95f0783de4013c409a63a493f567fb4, type: 3}
+  volume: 1
+  volumeVariance: 0
+  pitch: 1
+  pitchVariance: 0
+  minInterval: 0
+  delay: 0

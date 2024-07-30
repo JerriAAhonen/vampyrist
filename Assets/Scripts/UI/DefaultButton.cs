@@ -18,6 +18,9 @@ public class DefaultButton : MonoBehaviour
 	[SerializeField] private List<LayerRefs> layerRefs;
 	[SerializeField] private List<TextMeshProUGUI> texts;
 	[SerializeField] private Button button;
+	[Space]
+	[SerializeField] private AudioEvent hoverEvent;
+	[SerializeField] private AudioEvent clickEvent;
 
 	private float effectTransitionDur = 0.1f;
 	private int? hoverTweenId;
@@ -43,6 +46,8 @@ public class DefaultButton : MonoBehaviour
 
 	public void OnHoverEnter()
 	{
+		AudioManager.Instance.PlayOnce(hoverEvent);
+
 		if (hoverTweenId.HasValue)
 			LeanTween.cancel(hoverTweenId.Value);
 
@@ -57,6 +62,11 @@ public class DefaultButton : MonoBehaviour
 			})
 			.setIgnoreTimeScale(true)
 			.uniqueId;
+	}
+
+	public void OnPointerClick()
+	{
+		AudioManager.Instance.PlayOnce(clickEvent);
 	}
 
 	public void OnHoverExit()
