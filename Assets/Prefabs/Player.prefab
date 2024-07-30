@@ -144,6 +144,8 @@ MonoBehaviour:
   sunlightDamageSpeed: 1
   maxTimeInSunlight: 5
   fill: {fileID: 8268186731360081507}
+  normalVolume: {fileID: 0}
+  damageVolume: {fileID: 0}
 --- !u!114 &5684398220549739060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,7 +260,7 @@ GameObject:
   - component: {fileID: 8975111013377069313}
   - component: {fileID: 3977828939896782836}
   m_Layer: 6
-  m_Name: HealthCanvas
+  m_Name: DashCooldownCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -406,7 +408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.48795938, b: 1, a: 0.47058824}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -464,6 +466,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2261613964692210272}
   - component: {fileID: 3913413273040498689}
+  - component: {fileID: 4366499033480039784}
   m_Layer: 6
   m_Name: Vamp
   m_TagString: Untagged
@@ -524,9 +527,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingLayerID: -2058006085
+  m_SortingLayer: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 79c061649c87f9648895a2bd92c7df54, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -538,6 +541,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4366499033480039784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7194982286101122518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c93ba864b6ba1744f87e9a1e00270540, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customOffsetTm: {fileID: 0}
+  sortableSprites:
+  - spriteRenderer: {fileID: 3913413273040498689}
+    relativeOrder: 0
 --- !u!1 &8696784905132505221
 GameObject:
   m_ObjectHideFlags: 0
@@ -596,7 +615,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.50980395}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.25490198}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
