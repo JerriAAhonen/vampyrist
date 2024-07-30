@@ -25,7 +25,7 @@ public class MainMenu : MonoBehaviour
 		quitButton.OnClick.AddListener(OnQuit);
 
 		var hs = PlayerPrefs.GetInt(LevelController.PP_Key_Highscore, -1);
-		highscore.text = $"Highscore level {hs}";
+		highscore.text = $"Highest Level Cleared {hs}";
 		highscore.gameObject.SetActive(hs > -1);
 
 		RefreshSoundButtonText();

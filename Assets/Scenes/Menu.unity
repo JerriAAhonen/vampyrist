@@ -1302,7 +1302,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Highscore level 999
+  m_text: Highest Level Cleared 999
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f33c036ec44ae0d4e9bb9d25bc8f7322, type: 2}
   m_sharedMaterial: {fileID: -4993011848874729362, guid: f33c036ec44ae0d4e9bb9d25bc8f7322, type: 2}

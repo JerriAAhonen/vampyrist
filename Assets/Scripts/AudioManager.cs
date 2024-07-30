@@ -53,6 +53,12 @@ public class AudioManager : PersistentSingleton<AudioManager>
 		musicSource.transform.localPosition = Vector3.zero;
 		musicSource.Play();
 		musicSource.outputAudioMixerGroup = audioMixerGroup;
+
+		var vol = PlayerPrefs.GetInt(PPKey_VolumeOn, 1) == 1f
+			? 0.00001f
+			: 1f;
+
+		audioMixer.SetFloat("Volume", Mathf.Log10(vol) * 20);
 	}
 
 	private void LateUpdate()
